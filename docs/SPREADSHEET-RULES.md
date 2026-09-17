@@ -8,7 +8,7 @@ All durable BeanParts business/workflow data must live in the existing spreadshe
 
 There will be no separate authoritative business database. Any performance cache must be disposable and rebuildable from the spreadsheets. Deleting the cache must not lose team records. A save is not complete merely because data reached a cache.
 
-Additional tabs or helper columns in the existing files are proposals that require approval. If the team does not permit them, the design and feature scope must be reassessed rather than quietly storing required data elsewhere.
+The user permits modest spreadsheet changes to accommodate BeanParts, provided manual use remains similar. Helper columns or tabs may be proposed within that constraint. Review the actual workbooks and document the exact changes before applying them to live files; this is not permission to redesign the workflow wholesale.
 
 Passwords, access tokens, and API secrets must not be placed in Sheets or GitHub. Authentication and secret handling are security infrastructure, not a second business record system. The chosen approach needs explicit explanation during architecture planning. CAD geometry stays in Onshape; treatment of attachments and external file links remains an open requirement.
 
@@ -53,7 +53,7 @@ Before development, document each existing column:
 
 For rows created directly in Sheets, define when and how a stable ID is assigned. Missing or duplicate IDs must be detected without corrupting unrelated rows.
 
-Do not assume existing sheet layout changes are acceptable. Keep existing tabs, headers, formulas, formatting, and manual workflows unless the team approves a specific change.
+Preserve the familiar manual workflow and existing formulas. Modest layout changes are acceptable in principle; document the specific proposal after inspecting the files.
 
 ## Onshape import rules
 
@@ -96,3 +96,7 @@ Before live use:
 12. Verify unauthorized app actions are rejected and review direct-sheet permissions separately.
 
 These checks are release criteria, not claims that implementation has passed.
+
+## Role permissions and direct sheet use
+
+See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During architecture, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and lead requests. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
