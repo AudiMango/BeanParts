@@ -5,29 +5,32 @@ Status: User-confirmed role outline with proposed details. Planning only.
 ## Confirmed by the user
 
 - All students can view BOMs and order sheets and add parts to a BOM.
-- Student leads can request orders and perform confirmations/checks.
-- Mentors can perform those actions and also confirm orders and invoices.
+- Students can submit BOM entries and other team requests.
+- Student leads can request orders and review or confirm student submissions, including orders, deliveries, BOM entries, and other requests.
+- Mentors can perform those actions and also give final confirmation for orders and invoices.
 - Admin responsibilities are for the developer to propose.
 - Spreadsheet structure can change somewhat, while remaining usable in a similar manner.
 
 ## Proposed interpretation
 
-"Confirm" needs a precise meaning. Proposed: leads check that a request contains the right parts, quantities, and purpose; mentors give final purchase approval and confirm invoice details. Lead review alone does not mean a purchase has been approved or placed.
+Lead confirmation means checking student-submitted information before it moves forward. This includes checking order requests, confirming delivered parts, confirming BOM entries, and reviewing other student requests. Mentors retain final confirmation for purchases and invoices. A lead's check does not mean a vendor order was placed or an invoice was approved.
 
 | Action | Student | Student lead | Mentor |
 |---|---|---|---|
 | View BOMs and order sheets | Yes | Yes | Yes |
-| Add parts to a BOM | Yes | Yes | Yes |
-| Submit an order request | Not enabled in initial proposal | Yes | Yes |
-| Check a request is ready for mentor review | No | Yes | Yes |
-| Give final purchase approval | No | No | Yes |
+| Add or submit BOM parts | Yes | Yes | Yes |
+| Submit other requests | Yes | Yes | Yes |
+| Submit an order request | No, submit through a lead | Yes | Yes |
+| Check student requests | No | Yes | Yes |
+| Confirm a BOM entry | No | Yes | Yes |
+| Confirm delivered parts | No | Yes | Yes |
+| Give final purchase confirmation | No | No | Yes |
 | Confirm invoice details | No | No | Yes |
-| Mark items physically received | Pending decision | Proposed | Yes |
 | Record an order as actually placed | No | Pending decision | Yes |
 
-Only the confirmed outline above is settled. The table fills gaps with proposals, not newly approved requirements. Editing/deleting other users' BOM entries, applying bulk CAD imports, cancelling requests, and changing already-approved requests remain to be specified. Invoice confirmation does not itself mean payment processing.
+The user's latest clarification confirms lead review of orders, deliveries, BOM entries, and other student requests. Items marked pending remain undecided. Editing/deleting other users' BOM entries, applying bulk CAD imports, cancelling requests, and changing already-approved requests remain to be specified. Invoice confirmation does not itself mean payment processing.
 
-Proposed approval workflow: lead submits/checks request, mentor approves, purchase is placed outside BeanParts, order placement is recorded, delivered quantities are recorded. Decide how partial deliveries are represented after reviewing the workbook.
+Proposed approval workflow: a lead prepares or checks the order request, a mentor gives final confirmation, the purchase is placed outside BeanParts, order placement is recorded, and a lead or mentor confirms delivered quantities. Decide how partial deliveries are represented after reviewing the workbook.
 
 Material changes to approved quantity, vendor, or cost should require renewed mentor review; exact rules remain to be agreed.
 
@@ -53,9 +56,8 @@ Before implementation, inspect existing sharing/protection arrangements and prop
 
 ## Remaining questions
 
-1. Does lead "confirmation" mean checking requests, confirming physical receipt, or both?
-2. Who records that the vendor order was actually placed?
-3. Can ordinary students request purchases directly, or should those requests go through a lead? Initial proposal uses leads.
-4. Should any invoice details be restricted, or should all students see the same operational information? Do not infer that viewing order sheets grants access to credentials or payment details.
+1. Who records that the vendor order was actually placed?
+2. How should a lead handle a student submission that needs corrections: return it with notes, edit it directly, or either?
+3. Should any invoice details be restricted, or should all students see the same operational information? Do not infer that viewing order sheets grants access to credentials or payment details.
 
 Ask these gradually; avoid requiring the user to decide implementation details.
