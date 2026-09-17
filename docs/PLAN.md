@@ -22,7 +22,7 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 - Keep the two existing spreadsheets as the real record system.
 - Preserve direct spreadsheet editing and existing users' workflows.
 - Modest spreadsheet layout changes are allowed to support BeanParts, provided manual use stays similar.
-- All students can view BOMs and order sheets and add BOM parts. Leads can request orders and perform checks. Mentors have those abilities plus order and invoice confirmation; exact check meanings are pending.
+- All students can view BOMs and order sheets and add BOM parts. Leads can request orders and perform checks. Leads review student requests, BOM entries, and deliveries. Only mentors give final purchase confirmation, mark vendor orders as placed, and confirm invoices.
 - Keep source code and planning documents in this repository with version history.
 - Repository ownership may transfer from AudiMango to the team later.
 - Do not modify live spreadsheets or deploy an application during planning.
@@ -39,6 +39,7 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 6. Review additions, quantity changes, and other changes before saving to the BOM sheet.
 7. Show whether a save succeeded and when displayed data was last refreshed.
 8. Work well in desktop and phone browsers.
+9. Organize work into year/season/name projects, such as 2026 Onseason Robot and 2026 Offseason Altmill Upgrade. See [Project organization](PROJECTS.md).
 
 Ordering means recording and organizing purchases. BeanParts will not place purchases or handle payments automatically.
 
@@ -48,7 +49,6 @@ These are not committed requirements:
 - Full inventory counts, storage bins, and reservations.
 - Manufacturing progress.
 - Notifications and dashboards.
-- Multiple robots and seasons.
 - Vendor price or availability integrations.
 - Barcode scanning.
 - Offline editing.
@@ -89,8 +89,8 @@ No stage approval implies permission to spend money, change live sheet layouts, 
 
 ### Needed next
 
-1. Spreadsheet exports received: Copy of Order Sheet Template.xlsx, 2025 Order Sheet.xlsx, and Big Sheet Of Stuff 2.0 2026 Offseason.xlsx. Their contents remain uninspected because a local spreadsheet/file reader is not currently available. Do not infer fields from filenames.
-2. Basic roles received; see [Roles and permissions](ROLES.md). Clarify what leads may confirm, who marks receipt, and how existing approvals are recorded.
+1. Spreadsheet exports received: Copy of Order Sheet Template.xlsx, 2025 Order Sheet.xlsx, and Big Sheet Of Stuff 2.0 2026 Offseason.xlsx. Their contents remain uninspected. Local file tools are now available, but the supplied upload paths were absent during the latest workspace check. Do not infer fields from filenames.
+2. Basic roles received; see [Roles and permissions](ROLES.md). Lead review of requests/BOM entries/deliveries and mentor-only purchase confirmation/order placement are confirmed. How existing approvals are recorded still needs mapping.
 3. Modest spreadsheet changes are acceptable in principle. Propose exact changes after inspecting the workbooks; preserve familiar manual use.
 
 ### Needed before architecture is approved
@@ -116,6 +116,8 @@ The current spreadsheets and Onshape setup have not yet been inspected. Compatib
 Existing Claude code is reference material, not an approved implementation. Review it once accessible and reuse only pieces consistent with the approved requirements.
 
 ## Related documents
+
+- [Project organization](PROJECTS.md)
 
 - [Roles and permissions](ROLES.md)
 - [Spreadsheet rules and acceptance checks](SPREADSHEET-RULES.md)
