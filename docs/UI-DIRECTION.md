@@ -22,7 +22,7 @@ Source: Team 1833 Style Guide, last updated January 13, 2026.
 - Never recreate, stretch, recolor, outline, crop, or place the logo on the gray demonstration background shown in the guide.
 - Keep the logo compact in the app header. BeanParts is the product name; the Team BEAN 1833 logo identifies ownership.
 
-The user supplied a PNG of the primary red-and-white BEAN 1833 logo for use as the starting product asset. Use it in the app header, sign-in screen, and favicon tests. Verify the file's transparency, padding, and small-size legibility once the binary file is accessible. An SVG remains preferable for large or high-density displays; do not recreate the logo from the PDF.
+The user supplied a PNG of the primary red-and-white BEAN 1833 logo for use as the starting product asset. Use it in the app header, sign-in screen, and favicon tests. The supplied file is a 512 x 512 RGBA PNG with transparency. Test its small-size legibility before using it as the final browser favicon. An SVG remains preferable for large or high-density displays; do not recreate the logo from the PDF.
 
 ### Colors
 
@@ -310,15 +310,15 @@ The prototype should demonstrate student, lead, and mentor states for the same r
 ## Inputs still needed
 
 Before production UI implementation:
-- The supplied primary PNG must be made accessible in the repository and checked for transparency and small-size legibility; an SVG and approved alternate-color variants are still desirable.
+- The primary PNG is stored at assets/brand/bean-logo-primary.png. An SVG and approved alternate-color variants are still desirable.
 - Confirmation of the palette-code discrepancy in the style guide.
 - Any preference for light-only versus light and dark mode in the first release.
 - Final workbook fields after the existing spreadsheets are inspected.
 
-The supplied logo can guide the prototype even before its binary file is added to the repository.
+The stored logo is available for the fake-data prototype.
 
 ## Supplied logo handling
 
 The supplied favicon.png visually matches the guide's primary red-and-white BEAN 1833 mark. Use the full mark at a readable size in the signed-in header and on the sign-in screen. For browser favicons and very small mobile icons, test 16px, 32px, and 48px renders; the 1833 numerals may become too small. If so, create a separately approved simplified favicon based on the same silhouette rather than altering the primary logo without approval.
 
-Keep clear space around the irregular bean shape and preserve its proportions. Do not place it on red backgrounds. On teal or dark backgrounds, confirm the red outline and white lettering remain legible. The locally referenced binary file was unavailable during this documentation update, so its alpha channel, pixel dimensions, edge quality, and repository placement have not been verified.
+Keep clear space around the irregular bean shape and preserve its proportions. Do not place it on red backgrounds. On teal or dark backgrounds, confirm the red outline and white lettering remain legible. The supplied file has been verified as a 512 x 512, 8-bit RGBA PNG with transparency and is stored at assets/brand/bean-logo-primary.png. Visual inspection confirms clean edges at its native size. Small-size favicon legibility still needs to be tested during the prototype.
