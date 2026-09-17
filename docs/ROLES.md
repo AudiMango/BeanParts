@@ -7,7 +7,7 @@ Status: User-confirmed role outline with proposed details. Planning only.
 - All students can view BOMs and order sheets and add parts to a BOM.
 - Students can submit BOM entries and other team requests.
 - Student leads can request orders and review or confirm student submissions, including orders, deliveries, BOM entries, and other requests.
-- Mentors can perform those actions and also give final confirmation for orders and invoices.
+- Mentors can perform those actions. Only mentors give final confirmation for orders, mark vendor orders as placed, and confirm invoices.
 - Admin responsibilities are for the developer to propose.
 - Spreadsheet structure can change somewhat, while remaining usable in a similar manner.
 
@@ -26,7 +26,7 @@ Lead confirmation means checking student-submitted information before it moves f
 | Confirm delivered parts | No | Yes | Yes |
 | Give final purchase confirmation | No | No | Yes |
 | Confirm invoice details | No | No | Yes |
-| Record an order as actually placed | No | Pending decision | Yes |
+| Record an order as actually placed | No | No | Yes |
 
 The user's latest clarification confirms lead review of orders, deliveries, BOM entries, and other student requests. Items marked pending remain undecided. Editing/deleting other users' BOM entries, applying bulk CAD imports, cancelling requests, and changing already-approved requests remain to be specified. Invoice confirmation does not itself mean payment processing.
 
@@ -56,8 +56,7 @@ Before implementation, inspect existing sharing/protection arrangements and prop
 
 ## Remaining questions
 
-1. Who records that the vendor order was actually placed?
-2. How should a lead handle a student submission that needs corrections: return it with notes, edit it directly, or either?
-3. Should any invoice details be restricted, or should all students see the same operational information? Do not infer that viewing order sheets grants access to credentials or payment details.
+1. How should a lead handle a student submission that needs corrections: return it with notes, edit it directly, or either?
+2. Should any invoice details be restricted, or should all students see the same operational information? Do not infer that viewing order sheets grants access to credentials or payment details.
 
 Ask these gradually; avoid requiring the user to decide implementation details.
