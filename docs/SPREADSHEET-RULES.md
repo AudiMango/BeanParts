@@ -53,7 +53,7 @@ Before development, document each existing column:
 
 For rows created directly in Sheets, define when and how a stable ID is assigned. Missing or duplicate IDs must be detected without corrupting unrelated rows.
 
-Preserve the familiar manual workflow and existing formulas. Modest layout changes are acceptable in principle; document the specific proposal after inspecting the files.
+Preserve the familiar manual workflow and existing formulas. The inspected-workbook field map and modest change proposal are documented in [Spreadsheet audit](SPREADSHEET-AUDIT.md). The proposal keeps the familiar tabs, adds columns at the far right, and adds Projects, Members, Deliveries, History, and Lists helper tabs. It is not approval to modify live sheets.
 
 ## Onshape import rules
 
@@ -100,3 +100,8 @@ These checks are release criteria, not claims that implementation has passed.
 ## Role permissions and direct sheet use
 
 See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During architecture, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and lead requests. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
+
+
+## Inspected workbook note
+
+The BOM workbook and order-template workbook were inspected on September 17, 2026. See [Spreadsheet audit](SPREADSHEET-AUDIT.md). The completed 2025 order sheet and live Google Sheets remain to be checked. Google-only formulas cannot be judged solely from an XLSX export; apparent broken references must be confirmed in the live sheet.
