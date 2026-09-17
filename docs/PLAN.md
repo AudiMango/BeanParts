@@ -21,6 +21,8 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 - Reduce manual work in ordering and transferring Onshape information into the Big Sheet of Stuff.
 - Keep the two existing spreadsheets as the real record system.
 - Preserve direct spreadsheet editing and existing users' workflows.
+- Modest spreadsheet layout changes are allowed to support BeanParts, provided manual use stays similar.
+- All students can view BOMs and order sheets and add BOM parts. Leads can request orders and perform checks. Mentors have those abilities plus order and invoice confirmation; exact check meanings are pending.
 - Keep source code and planning documents in this repository with version history.
 - Repository ownership may transfer from AudiMango to the team later.
 - Do not modify live spreadsheets or deploy an application during planning.
@@ -58,7 +60,7 @@ The earlier discussion included some of these as if they were settled. They are 
 
 ### Ordering
 
-A student enters a request in either the existing sheet or BeanParts. Both represent the same request. The responsible person reviews it using the team's existing process. Someone places the order outside BeanParts, records the purchase, and later records receipt.
+A student lead or mentor enters a request in either the existing sheet or BeanParts. Both represent the same request. The responsible person reviews it using the team's existing process. Someone places the order outside BeanParts, records the purchase, and later records receipt.
 
 Exact statuses, required fields, approvers, and partial-delivery behavior will be mapped from the current workflow, not invented for the team.
 
@@ -87,9 +89,9 @@ No stage approval implies permission to spend money, change live sheet layouts, 
 
 ### Needed next
 
-1. Copies or exports of both existing spreadsheets, including tabs, column headers, formulas, and a few representative rows. Remove sensitive data. Screenshots can help initially but will not be enough for the full field/formula review.
-2. A short explanation of who requests, approves, orders, and marks parts received. Include whether approval happens in the sheet, verbally, or somewhere else.
-3. Whether adding helper columns or tabs to the existing spreadsheet files is acceptable, provided the familiar workflow stays intact.
+1. Spreadsheet exports received: Copy of Order Sheet Template.xlsx, 2025 Order Sheet.xlsx, and Big Sheet Of Stuff 2.0 2026 Offseason.xlsx. Their contents remain uninspected because a local spreadsheet/file reader is not currently available. Do not infer fields from filenames.
+2. Basic roles received; see [Roles and permissions](ROLES.md). Clarify what leads may confirm, who marks receipt, and how existing approvals are recorded.
+3. Modest spreadsheet changes are acceptable in principle. Propose exact changes after inspecting the workbooks; preserve familiar manual use.
 
 ### Needed before architecture is approved
 
@@ -115,5 +117,6 @@ Existing Claude code is reference material, not an approved implementation. Revi
 
 ## Related documents
 
+- [Roles and permissions](ROLES.md)
 - [Spreadsheet rules and acceptance checks](SPREADSHEET-RULES.md)
 - [Development and handoff process](DEVELOPMENT.md)
