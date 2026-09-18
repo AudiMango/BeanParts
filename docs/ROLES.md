@@ -8,7 +8,7 @@ Status: User-confirmed role outline with proposed details. Planning only.
 - Students can submit BOM entries and other team requests.
 - Student leads can request orders and review or confirm student submissions, including orders, deliveries, BOM entries, and other requests.
 - Mentors can perform those actions. Only mentors give final confirmation for orders, mark vendor orders as placed, and confirm invoices.
-- Admin responsibilities are for the developer to propose.
+- Admin is a separate technical responsibility; it does not grant Mentor purchasing or access-management authority.
 - Spreadsheet structure can change somewhat, while remaining usable in a similar manner.
 
 ## Proposed interpretation
@@ -55,7 +55,7 @@ Google account authentication/OAuth establishes the account identity. BeanParts 
 
 Hiding or disabling a control in the frontend is not permission enforcement. Every protected read or write must be checked again by the Apps Script backend before it accesses Sheets. The browser must not receive privileged Google API credentials or a general-purpose capability to bypass those checks.
 
-The exact role-storage layout, invitation/onboarding process, inactive-user behavior, and method for proving identity across the chosen Apps Script deployment are still implementation decisions. They must be tested with the Google account types the team will actually use.
+The protected `Members` sheet stores separate Student, Lead, Mentor, and optional Admin flags rather than one mutually exclusive role. The exact column names, invitation/onboarding flow, inactive-user behavior, and identity-verification mechanics remain implementation details. They must be tested with representative Team Workspace accounts.
 
 ## Spreadsheet compatibility
 
