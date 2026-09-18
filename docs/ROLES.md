@@ -38,15 +38,16 @@ Material changes to approved quantity, vendor, or cost should require renewed me
 
 Use admin as an additional responsibility, alongside a student's, lead's, or mentor's normal role.
 
-Admins manage:
+Mentors manage:
 - Membership and role assignments.
-- Spreadsheet and Onshape connection settings.
-- Application settings and troubleshooting.
-- Backups, recovery, and ownership handoff.
+- Final purchase approval, order placement, invoice links, and invoice confirmation.
+- Project creation and restoration.
+
+Admins manage technical application settings, troubleshooting, deployment support, and recovery tooling. Onshape connection settings are deferred until the post-v1 importer.
 
 Admin status by itself does not grant final purchase approval or invoice confirmation. A mentor who is also an admin has both sets of abilities.
 
-Proposed: Adi handles app administration with a mentor as a second administrator for continuity. This is a recommendation, not an account assignment. Define who may grant the mentor role so role management does not become an unintended route to purchase approval.
+At least two mentors must retain access-management and recovery capability. Admin permission alone cannot grant or remove roles and does not create an unintended route to purchase approval.
 
 ## Identity and backend enforcement
 
@@ -58,13 +59,13 @@ The exact role-storage layout, invitation/onboarding process, inactive-user beha
 
 ## Spreadsheet compatibility
 
-All durable role assignments and workflow records remain in the spreadsheet system, subject to protected storage design. Direct spreadsheet users must retain their normal way of working. App permission checks alone cannot restrict someone who can freely edit the corresponding sheet cells.
+All durable role assignments remain in the protected Members sheet of the Control workbook. Only mentors manage access and roles through BeanParts or direct protected-sheet access. Direct spreadsheet users must retain their normal way of working. App permission checks alone cannot restrict someone who can freely edit the corresponding sheet cells.
 
 Before implementation, inspect existing sharing/protection arrangements and propose appropriate protection for approvals, invoice confirmation, and role settings. Test both direct-sheet and app paths. Do not claim these protections are already configured.
 
 ## Remaining questions
 
 1. How should a lead handle a student submission that needs corrections: return it with notes, edit it directly, or either?
-2. Should any invoice details be restricted, or should all students see the same operational information? Do not infer that viewing order sheets grants access to credentials or payment details.
+2. Final exact protected ranges and Workspace groups must be validated on copies before rollout. All approved users may view operational invoice and budget data, but students and leads cannot edit invoices. Payment credentials and banking/card information are never stored.
 
 Ask these gradually; avoid requiring the user to decide implementation details.
