@@ -117,6 +117,20 @@ Authentication and authorization are separate:
 2. BeanParts checks that the account is active in Members and loads its responsibilities.
 3. Apps Script authorizes each operation again before accessing Sheets.
 
+
+### Implementation boundary
+
+The codebase follows the modular dependency rules in [Codebase structure](CODEBASE-STRUCTURE.md):
+
+- React features call one typed API adapter and never access Sheets or `google.script.run` directly.
+- Thin Apps Script API entry points call services.
+- Services own business workflows and coordinate authorization, validation, concurrency, history, and repositories.
+- Repositories provide domain-oriented batched access; lower-level Sheets helpers own ranges and row mapping.
+- Shared contracts define frontend/backend request, response, role, status, revision, conflict, and error shapes.
+- Lower layers do not import UI or higher workflow layers.
+
+This organization is a current development constraint. Exact build, test, formatting, and deployment tools remain implementation decisions.
+
 ## 5. Membership and permissions
 
 Members uses separate role flags because responsibilities may overlap:
