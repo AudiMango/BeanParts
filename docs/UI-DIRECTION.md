@@ -111,7 +111,7 @@ Tables should become stacked, information-dense rows. Each row shows the most us
 ### 1. Sign in
 
 - Team BEAN logo and BeanParts name.
-- One clear Google sign-in action if approved during architecture.
+- One clear Google sign-in action. Google establishes account identity; BeanParts backend authorization determines the user's permitted role actions.
 - Short explanation that spreadsheet users may continue using Sheets.
 - No large marketing page is needed for the private team application.
 
