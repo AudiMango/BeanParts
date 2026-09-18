@@ -48,6 +48,14 @@ Admin status by itself does not grant final purchase approval or invoice confirm
 
 Proposed: Adi handles app administration with a mentor as a second administrator for continuity. This is a recommendation, not an account assignment. Define who may grant the mentor role so role management does not become an unintended route to purchase approval.
 
+## Identity and backend enforcement
+
+Google account authentication/OAuth establishes the account identity. BeanParts authorization is a separate decision: the Apps Script backend maps that identity to the approved Student, Lead, Mentor, and optional Admin responsibilities.
+
+Hiding or disabling a control in the frontend is not permission enforcement. Every protected read or write must be checked again by the Apps Script backend before it accesses Sheets. The browser must not receive privileged Google API credentials or a general-purpose capability to bypass those checks.
+
+The exact role-storage layout, invitation/onboarding process, inactive-user behavior, and method for proving identity across the chosen Apps Script deployment are still implementation decisions. They must be tested with the Google account types the team will actually use.
+
 ## Spreadsheet compatibility
 
 All durable role assignments and workflow records remain in the spreadsheet system, subject to protected storage design. Direct spreadsheet users must retain their normal way of working. App permission checks alone cannot restrict someone who can freely edit the corresponding sheet cells.
