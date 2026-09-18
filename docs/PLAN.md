@@ -84,7 +84,7 @@ Removing a part in CAD must not automatically delete a purchase request or erase
 | Stage | What the developer produces | What Adi/team approves |
 |---|---|---|
 | 1. Requirements | Current workflow, sheet field map, required features, success checks | That the plan matches how the team works |
-| 2. Architecture | Plain-language system design, permissions, data rules, costs, recovery approach | Costs, access, and any sheet structure changes |
+| 2. Architecture (direction selected) | Validate deployment, identity, permissions, data rules, quotas, costs, and recovery approach | Remaining costs, access, and any sheet structure changes |
 | 3. Prototype | Screens using fake data | Whether the app is understandable and useful |
 | 4. Development | Small working features tested on copies | Permission to start development, then feedback on each milestone |
 | 5. Pilot | A limited test with team members and backed-up data | Permission for a controlled live test |
