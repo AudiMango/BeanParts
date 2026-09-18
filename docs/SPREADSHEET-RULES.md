@@ -20,6 +20,22 @@ Passwords, access tokens, and API secrets must not be placed in Sheets or GitHub
 - App access cannot silently give a person broader powers than the agreed team access rules.
 - Direct sheet editors can bypass app validation. App-only restrictions cannot guarantee protection against direct sheet edits. Any required restrictions must also fit the sheet permission model.
 
+## Apps Script data access
+
+Google Apps Script is the backend/API responsible for Sheets access, business rules, validation, role checks, and concurrency protection where appropriate. Browser code must not contain privileged Google API credentials or write directly through a privileged Sheets identity.
+
+Design Apps Script operations to stay efficient and within practical quotas:
+
+- read and write ranges in batches instead of making per-cell calls;
+- return only the fields needed by the current screen;
+- filter and sort in the browser when the required data set is already loaded and small enough;
+- use caching for derived/read-heavy data when useful, but treat it as disposable;
+- invalidate or refresh cached results so direct Sheet edits become visible within the agreed freshness target;
+- use stable record IDs, expected versions/timestamps, and Apps Script locking where appropriate;
+- do not claim locking prevents a person from editing the Sheet at the same time.
+
+The exact batching boundaries, cache duration, freshness target, locking strategy, and conflict UI remain to be decided and tested against representative data and simultaneous users.
+
 ## Rules to design and test
 
 | Situation | Required behavior |
