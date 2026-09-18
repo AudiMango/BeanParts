@@ -1,6 +1,6 @@
 # BeanParts — Project Plan
 
-Status: Draft for review. Planning only; application development is not authorized yet.
+Status: Draft for review. Planning only; application development is not authorized yet. The architecture direction is confirmed; implementation details identified in [Architecture](ARCHITECTURE.md) remain open.
 
 ## Start here
 
@@ -26,6 +26,13 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 - Keep source code and planning documents in this repository with version history.
 - Repository ownership may transfer from AudiMango to the team later.
 - Do not modify live spreadsheets or deploy an application during planning.
+- Use a responsive browser application accessible from students' and mentors' personal laptops and phones.
+- Use Google Apps Script for the backend/API.
+- Use Google account authentication/OAuth for identity; enforce BeanParts roles separately in backend authorization.
+- Investigate serving the frontend from Google Apps Script. Do not assume Vercel, Supabase, Firebase, or another host/database is required.
+- Keep privileged Google API credentials out of the browser.
+- Design Sheets access around batch operations, practical client-side filtering/sorting, caching where appropriate, and concurrency protection.
+- Keep the backend/data boundary separable so a later frontend-only move to a platform such as Vercel does not redesign the Sheets/Apps Script architecture.
 
 ## What is proposed, not yet confirmed
 
@@ -93,7 +100,7 @@ No stage approval implies permission to spend money, change live sheet layouts, 
 2. Basic roles received; see [Roles and permissions](ROLES.md). Lead review of requests/BOM entries/deliveries and mentor-only purchase confirmation/order placement are confirmed. The proposed spreadsheet fields for recording those steps are in the audit.
 3. Modest spreadsheet changes are acceptable in principle. The audit proposes adding fields at the right side of familiar tabs plus a small set of helper tabs. Nothing has been changed in a live spreadsheet.
 
-### Needed before architecture is approved
+### Needed before implementation begins
 
 - One representative Onshape assembly and an explanation of how it is currently copied into the BOM. A sanitized example or screenshots are sufficient to start discussion.
 - Required Onshape properties, part-number conventions, configurations, revision practices, and quantities/spares rules.
@@ -111,12 +118,13 @@ Do not send passwords, API secrets, payment information, or unnecessary personal
 
 The initial documents are based on the user's instructions in this conversation. The uploaded BeanParts-HANDOFF.md, Pasted markdown.md, and BeanParts-step-1.0.zip have not been inspected with the currently available tools. No claims are made about their contents, quality, or completion.
 
-The two currently available spreadsheet files have been inspected. The completed 2025 order sheet and the live Google Sheets still need verification, especially Google-specific formulas and several apparent #REF! references. The Onshape setup has not yet been inspected. API access, speed, exact costs, and the feasibility of preserving every existing behavior must be checked before selecting implementation tools or promising delivery dates.
+The two currently available spreadsheet files have been inspected. The completed 2025 order sheet and the live Google Sheets still need verification, especially Google-specific formulas and several apparent #REF! references. The Onshape setup has not yet been inspected. Apps Script and Sheets are the selected backend/data direction, but account identity behavior, quotas, deployment mode, performance, exact costs, concurrency behavior, and the feasibility of preserving every existing workflow still require validation before promising delivery dates.
 
 Existing Claude code is reference material, not an approved implementation. Review it once accessible and reuse only pieces consistent with the approved requirements.
 
 ## Related documents
 
+- [Architecture](ARCHITECTURE.md)
 - [Project organization](PROJECTS.md)
 
 - [Roles and permissions](ROLES.md)
