@@ -6,11 +6,13 @@ Status: Planning only. The application architecture is selected; implementation 
 
 - Build a responsive browser application, not a local Windows-only program.
 - Use Google Apps Script as the backend/API and Google Sheets as the authoritative data store.
-- Investigate Apps Script hosting for the frontend before adding a separate hosting platform.
+- Serve the React + TypeScript + Vite frontend bundle through Apps Script HTML Service for v1; wrap `google.script.run` behind a typed adapter.
 - Keep the frontend/backend boundary clear enough that only the frontend can move later if Apps Script hosting creates a demonstrated limitation.
 - Keep privileged Google access and role enforcement in the backend. Never put privileged API credentials in browser code.
 - Optimize Sheets access with batch reads/writes, client-side filtering/sorting where practical, and safe caching that can be rebuilt from Sheets.
-- Treat Google identity and BeanParts authorization as separate concerns.
+- Treat Workspace identity and BeanParts authorization as separate concerns.
+- Preserve one BOM workbook per project plus the central ordering and Control workbooks.
+- Design for 1–5 simultaneous active users and a 1–2 minute direct-edit freshness target.
 
 The previous Sites prototype → Vercel/Supabase production assumption is superseded. Vercel is only a possible future frontend host; Supabase, Firebase, and other databases are not part of the current architecture.
 
@@ -44,20 +46,18 @@ These initial planning files may be committed directly as a documentation-only b
 
 This is a draft, not a schedule or an approval to build:
 
-1. Verify spreadsheet and Onshape access using approved test data.
-2. Validate Google account identity behavior and the Apps Script web-app deployment model with team account types.
-3. Prototype the responsive frontend with fake data and evaluate Apps Script frontend hosting.
-4. Connect read-only Apps Script operations to spreadsheet copies using batched reads.
-5. Add safe, authorized writes with validation, conflict detection, and locking where appropriate.
-6. Add the agreed approval/ordering/receiving steps.
-7. Add reviewed Onshape imports into the test BOM sheet.
-8. Run acceptance, concurrency, recovery, and team usability tests on laptop and phone.
+1. Create approved clean templates for the Control workbook, project BOM workbook, and central ordering workbook.
+2. Validate Team Workspace identity, execute-as-user deployment, shared-drive ownership, and protected ranges.
+3. Prototype the React + TypeScript interface with fake data and the typed `google.script.run` adapter.
+4. Connect read-only batched views to workbook copies.
+5. Add safe authorized writes with stable IDs, revision hashes, locks, idempotency, and field-level conflict resolution.
+6. Add membership, project creation, BOM, normal requests, AutomationDirect requests, ordering, invoice, and receiving workflows.
+7. Add daily backups, 30-day retention cleanup, restore testing, and partial-write recovery.
+8. Run acceptance, concurrency, recovery, and usability tests on laptop and phone.
 9. Obtain approval for a limited live pilot.
-10. Release after issues found in the pilot are resolved.
+10. Release after pilot issues are resolved.
 
-If Onshape access is uncertain, check it early during implementation planning with a specifically approved feasibility test. Do not build a large app around an unverified integration.
-
-Full inventory and other optional features need a separate scope decision.
+Onshape importing and notifications are post-v1 work. Do not make core v1 depend on either feature.
 
 ## Separation of test and live use
 
