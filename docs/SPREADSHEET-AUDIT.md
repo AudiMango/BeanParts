@@ -182,11 +182,11 @@ This is why Part ID, BOM Entry ID, and Request ID must be separate.
 
 - Review the completed 2025 order sheet when available.
 - Check the apparent #REF! formulas in the live Google Sheet.
-- Confirm whether AD Order List remains a separate workflow or can become a filtered view.
+- Verify the separate `AD Order List` workflow and its approval/protection behavior on a workbook copy.
 - Confirm the final BOM confirmation rule.
 - Confirm which existing columns/formulas/scripts must remain untouched.
 - Test all changes on copies first.
-- Back up both live spreadsheets before any approved structure change.
+- Archive the legacy spreadsheets read-only and back up every affected active workbook before any approved structure change.
 
 ## Next prototype scope
 
