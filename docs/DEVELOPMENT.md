@@ -1,6 +1,18 @@
 # BeanParts — Development and Handoff
 
-Status: Planning only.
+Status: Planning only. The application architecture is selected; implementation details listed in [ARCHITECTURE.md](ARCHITECTURE.md) remain to be validated.
+
+## Architecture constraints for development
+
+- Build a responsive browser application, not a local Windows-only program.
+- Use Google Apps Script as the backend/API and Google Sheets as the authoritative data store.
+- Investigate Apps Script hosting for the frontend before adding a separate hosting platform.
+- Keep the frontend/backend boundary clear enough that only the frontend can move later if Apps Script hosting creates a demonstrated limitation.
+- Keep privileged Google access and role enforcement in the backend. Never put privileged API credentials in browser code.
+- Optimize Sheets access with batch reads/writes, client-side filtering/sorting where practical, and safe caching that can be rebuilt from Sheets.
+- Treat Google identity and BeanParts authorization as separate concerns.
+
+The previous Sites prototype → Vercel/Supabase production assumption is superseded. Vercel is only a possible future frontend host; Supabase, Firebase, and other databases are not part of the current architecture.
 
 ## Simple working agreement
 
@@ -33,14 +45,15 @@ These initial planning files may be committed directly as a documentation-only b
 This is a draft, not a schedule or an approval to build:
 
 1. Verify spreadsheet and Onshape access using approved test data.
-2. Build a phone-friendly interface prototype with fake data.
-3. Connect read-only views to spreadsheet copies.
-4. Add safe request entry and updates to those copies.
-5. Add the agreed approval/ordering/receiving steps.
-6. Add reviewed Onshape imports into the test BOM sheet.
-7. Run acceptance tests, recovery tests, and team usability tests.
-8. Obtain approval for a limited live pilot.
-9. Release after issues found in the pilot are resolved.
+2. Validate Google account identity behavior and the Apps Script web-app deployment model with team account types.
+3. Prototype the responsive frontend with fake data and evaluate Apps Script frontend hosting.
+4. Connect read-only Apps Script operations to spreadsheet copies using batched reads.
+5. Add safe, authorized writes with validation, conflict detection, and locking where appropriate.
+6. Add the agreed approval/ordering/receiving steps.
+7. Add reviewed Onshape imports into the test BOM sheet.
+8. Run acceptance, concurrency, recovery, and team usability tests on laptop and phone.
+9. Obtain approval for a limited live pilot.
+10. Release after issues found in the pilot are resolved.
 
 If Onshape access is uncertain, check it early during architecture with a specifically approved feasibility test. Do not build a large app around an unverified integration.
 
@@ -71,7 +84,7 @@ When ownership transfers:
 - Transfer the repository through the appropriate GitHub process.
 - Review who can administer and contribute.
 - Update repository links and integration settings as needed.
-- Verify the team owns hosting, Google/Onshape authorizations, domains, and billing where applicable.
+- Verify the team owns the Apps Script project, Google Sheets, Google/Onshape authorizations, any later frontend host or domain, and billing where applicable.
 - Rotate or reauthorize credentials when appropriate.
 - Test access and integrations after transfer.
 - Give the team a maintenance and recovery guide.
