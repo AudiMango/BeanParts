@@ -10,7 +10,7 @@ There will be no separate authoritative business database. Any performance cache
 
 The user permits modest spreadsheet changes to accommodate BeanParts, provided manual use remains similar. Helper columns or tabs may be proposed within that constraint. Review the actual workbooks and document the exact changes before applying them to live files; this is not permission to redesign the workflow wholesale.
 
-Passwords, access tokens, and API secrets must not be placed in Sheets or GitHub. Authentication and secret handling are security infrastructure, not a second business record system. The chosen approach needs explicit explanation during architecture planning. CAD geometry stays in Onshape; treatment of attachments and external file links remains an open requirement.
+Passwords, access tokens, and API secrets must not be placed in Sheets or GitHub. Authentication and secret handling are security infrastructure, not a second business record system. The selected Apps Script approach must document its server-side secret handling before implementation. CAD geometry stays in Onshape; treatment of attachments and external file links remains an open requirement.
 
 ## Two ways to use the same information
 
@@ -115,7 +115,7 @@ These checks are release criteria, not claims that implementation has passed.
 
 ## Role permissions and direct sheet use
 
-See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During architecture, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and lead requests. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
+See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During implementation planning, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and lead requests. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
 
 
 ## Inspected workbook note
