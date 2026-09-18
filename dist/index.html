@@ -94,11 +94,11 @@
         <div class="work-grid">
           <article class="work-card urgent" data-jump="requests">
             <div class="work-card-top"><span>Lead review</span><strong>4</strong></div>
-            <h2>Student submissions</h2>
-            <p>BOM entries and order requests waiting to be checked.</p>
+            <h2>Submitted items</h2>
+            <p>BOM entries and team requests waiting to be checked.</p>
             <span class="text-link">Review queue <span aria-hidden="true">→</span></span>
           </article>
-          <article class="work-card" data-jump="orders">
+          <article class="work-card request-only" data-jump="orders">
             <div class="work-card-top"><span>Mentor action</span><strong>3</strong></div>
             <h2>Ready for approval</h2>
             <p>Lead-checked requests ready for mentor confirmation.</p>
@@ -126,7 +126,7 @@
             <dl class="metric-list">
               <div><dt>Confirmed BOM lines</dt><dd><strong>161</strong> / 184</dd></div>
               <div><dt>Estimated project cost</dt><dd>$8,426.38</dd></div>
-              <div><dt>Open order requests</dt><dd>12</dd></div>
+              <div class="request-only"><dt>Open order requests</dt><dd>12</dd></div>
             </dl>
             <div class="progress-block">
               <div><span>BOM review</span><span>88%</span></div>
@@ -221,7 +221,7 @@
             <h1 id="ordersTitle">Orders & invoices</h1>
             <p>Purchases from the team budget. Only mentors can confirm and mark orders placed.</p>
           </div>
-          <button class="button primary mentor-only" type="button" data-action="create-order">Create vendor order</button>
+          <button class="button primary mentor-only" type="button" data-open="vendorOrderDialog">Create vendor order</button>
         </div>
         <div class="inline-callout role-callout" id="orderPermissionCallout"></div>
         <div class="table-shell">
@@ -320,6 +320,27 @@
           <label class="wide">Receiving note <textarea name="note" rows="3" placeholder="Optional note"></textarea></label>
         </div>
         <div class="modal-footer"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" value="default">Confirm delivery</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="vendorOrderDialog" class="modal vendor-order-modal">
+      <form method="dialog" data-form="vendor-order">
+        <div class="modal-heading"><div><span class="kicker">MENTOR ACTION</span><h2>Create vendor order</h2></div><button value="cancel" aria-label="Close">×</button></div>
+        <p class="modal-intro">Select the exact approved request lines being purchased. Items from this vendor are never added automatically.</p>
+        <label class="vendor-select-label">Vendor
+          <select id="vendorOrderVendor" name="vendor">
+            <option>WestCoast Products</option>
+            <option>AndyMark</option>
+            <option>McMaster-Carr</option>
+          </select>
+        </label>
+        <div class="order-builder-heading"><span>Approved request lines</span><span>Order quantity</span></div>
+        <div class="vendor-line-list" id="vendorOrderLines"></div>
+        <div class="vendor-order-summary">
+          <span><strong id="vendorSelectedCount">0</strong> lines selected</span>
+          <span>Estimated subtotal <strong id="vendorOrderSubtotal">$0.00</strong></span>
+        </div>
+        <div class="modal-footer"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" id="createVendorOrderButton" value="default" disabled>Create order with selected lines</button></div>
       </form>
     </dialog>
 

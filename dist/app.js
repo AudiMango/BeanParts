@@ -31,11 +31,29 @@ const orderData = [
   { id: "AM-6127", vendor: "AndyMark", projects: "Onseason Robot + 2", placed: "Sep 11", total: "$1,274.03", delivery: "Delivered", deliveryClass: "delivered", invoice: "Confirmed", invoiceClass: "paid" }
 ];
 
+const vendorOrderCandidates = {
+  "WestCoast Products": [
+    { id: "REQ-0263", item: "Kraken X60 motor", project: "2026 Onseason Robot · Shooter", available: 2, unitPrice: 199.99 },
+    { id: "REQ-0260", item: "18T spline motor pinion", project: "2026 Onseason Robot · Shooter", available: 4, unitPrice: 14.99 },
+    { id: "REQ-0249", item: "#25 chain · 10 ft", project: "2026 Offseason Robot · Drivetrain", available: 2, unitPrice: 21.00 }
+  ],
+  "AndyMark": [
+    { id: "REQ-0268", item: "4 in. compliant wheel", project: "2026 Onseason Robot · Intake", available: 8, unitPrice: 17.95 },
+    { id: "REQ-0254", item: "RoboRIO 2.0", project: "2026 Onseason Robot · Electrical", available: 1, unitPrice: 475.00 },
+    { id: "REQ-0241", item: "1/2 in. hex bearing", project: "2026 Offseason Robot · Drivetrain", available: 16, unitPrice: 8.50 }
+  ],
+  "McMaster-Carr": [
+    { id: "REQ-0259", item: "7075 aluminum shaft", project: "2026 Onseason Robot · Intake", available: 2, unitPrice: 28.42 },
+    { id: "REQ-0256", item: "10-32 button-head screws", project: "General Team Supplies", available: 100, unitPrice: 0.19 },
+    { id: "REQ-0246", item: "Hook-and-loop cable ties", project: "2026 Onseason Robot · Electrical", available: 25, unitPrice: 0.62 }
+  ]
+};
+
 const attentionItems = [
   { title: "Review intake pivot plate", subtitle: "BOM-0184 · Submitted by Maya R.", type: "red", value: "Lead review", time: "8 min ago", route: "bom" },
-  { title: "Check compliant wheel request", subtitle: "REQ-0268 · 8 wheels from AndyMark", type: "amber", value: "$143.60", time: "31 min ago", route: "requests" },
+  { title: "Check compliant wheel request", subtitle: "REQ-0268 · 8 wheels from AndyMark", type: "amber", value: "$143.60", time: "31 min ago", route: "requests", requestRelated: true },
   { title: "REV Robotics delivery incomplete", subtitle: "REV-1048 · 4 of 6 lines received", type: "teal", value: "2 lines open", time: "Today", route: "deliveries" },
-  { title: "Mentor approval ready", subtitle: "REQ-0263 · Kraken X60 motors", type: "teal", value: "$399.98", time: "1 hr ago", route: "orders" }
+  { title: "Mentor approval ready", subtitle: "REQ-0263 · Kraken X60 motors", type: "teal", value: "$399.98", time: "1 hr ago", route: "orders", requestRelated: true }
 ];
 
 const activities = [
@@ -64,7 +82,8 @@ const roleCanMentor = () => currentRole === "Mentor";
 
 function routeTo(route) {
   const valid = ["overview", "bom", "requests", "orders", "deliveries"];
-  const next = valid.includes(route) ? route : "overview";
+  let next = valid.includes(route) ? route : "overview";
+  if (currentRole === "Student" && next === "requests") next = "overview";
   document.querySelectorAll(".page").forEach(page => page.classList.toggle("active", page.dataset.page === next));
   document.querySelectorAll("[data-route]").forEach(link => link.classList.toggle("active", link.dataset.route === next));
   if (location.hash !== `#${next}`) history.replaceState(null, "", `#${next}`);
@@ -73,7 +92,8 @@ function routeTo(route) {
 }
 
 function renderAttention() {
-  document.getElementById("attentionList").innerHTML = attentionItems.map(item => `
+  const visibleItems = currentRole === "Student" ? attentionItems.filter(item => !item.requestRelated) : attentionItems;
+  document.getElementById("attentionList").innerHTML = visibleItems.map(item => `
     <div class="task-item" data-jump="${item.route}" tabindex="0" role="button">
       <span class="task-accent ${item.type}"></span>
       <span class="task-copy"><strong>${item.title}</strong><small>${item.subtitle}</small></span>
@@ -154,6 +174,34 @@ function renderOrders() {
     </article>`).join("");
 }
 
+function renderVendorOrderBuilder() {
+  const vendor = document.getElementById("vendorOrderVendor").value;
+  const lines = vendorOrderCandidates[vendor] || [];
+  document.getElementById("vendorOrderLines").innerHTML = lines.length ? lines.map(line => `
+    <label class="vendor-line">
+      <input type="checkbox" name="selectedLine" value="${line.id}" />
+      <span class="vendor-line-copy"><strong>${line.item}</strong><small>${line.id} · ${line.project} · $${line.unitPrice.toFixed(2)} each</small></span>
+      <span class="vendor-line-quantity"><input type="number" name="quantity-${line.id}" min="1" max="${line.available}" value="${line.available}" disabled aria-label="Order quantity for ${line.item}" /><span>of ${line.available}</span></span>
+    </label>`).join("") : `<div class="vendor-empty">No approved request lines are ready for this vendor.</div>`;
+  updateVendorOrderSummary();
+}
+
+function updateVendorOrderSummary() {
+  const vendor = document.getElementById("vendorOrderVendor").value;
+  const checked = [...document.querySelectorAll('#vendorOrderLines input[name="selectedLine"]:checked')];
+  let subtotal = 0;
+  checked.forEach(checkbox => {
+    const line = (vendorOrderCandidates[vendor] || []).find(candidate => candidate.id === checkbox.value);
+    const quantityInput = document.querySelector(`[name="quantity-${checkbox.value}"]`);
+    const quantity = Math.max(1, Math.min(line.available, Number(quantityInput.value) || 1));
+    quantityInput.value = quantity;
+    subtotal += line.unitPrice * quantity;
+  });
+  document.getElementById("vendorSelectedCount").textContent = checked.length;
+  document.getElementById("vendorOrderSubtotal").textContent = subtotal.toLocaleString("en-US", { style: "currency", currency: "USD" });
+  document.getElementById("createVendorOrderButton").disabled = checked.length === 0;
+}
+
 function renderDeliveries() {
   const query = document.getElementById("deliverySearch").value.trim().toLowerCase();
   const cards = deliveries.filter(order => `${order.id} ${order.vendor} ${order.lines.map(line => line.name + line.note).join(" ")}`.toLowerCase().includes(query));
@@ -168,9 +216,15 @@ function renderDeliveries() {
 }
 
 function updateRoleUI() {
+  const isStudent = currentRole === "Student";
   document.querySelectorAll(".lead-only").forEach(el => { el.hidden = !["Lead", "Mentor"].includes(currentRole); });
   document.querySelectorAll(".reviewer-only").forEach(el => { el.hidden = !roleCanReview(); });
   document.querySelectorAll(".mentor-only").forEach(el => { el.hidden = !roleCanMentor(); });
+  document.querySelectorAll('[data-route="requests"], [data-jump="requests"]').forEach(el => { el.hidden = isStudent; });
+  document.querySelectorAll(".request-only").forEach(el => { el.hidden = isStudent; });
+  document.body.classList.toggle("student-view", isStudent);
+  renderAttention();
+  if (isStudent && document.querySelector('[data-page="requests"]').classList.contains("active")) routeTo("overview");
   const callout = document.getElementById("orderPermissionCallout");
   if (currentRole === "Mentor") callout.textContent = "Mentor preview: purchase confirmation, Mark ordered, and invoice confirmation are enabled.";
   else if (currentRole === "Admin") callout.textContent = "Admin preview: admins manage access and connections, but admin status alone does not grant purchase approval.";
@@ -246,7 +300,11 @@ document.addEventListener("click", event => {
   if (jump) { closeDrawer(); routeTo(jump.dataset.jump); return; }
 
   const openButton = event.target.closest("[data-open]");
-  if (openButton && !openButton.hidden) { document.getElementById(openButton.dataset.open)?.showModal(); return; }
+  if (openButton && !openButton.hidden) {
+    if (openButton.dataset.open === "vendorOrderDialog") renderVendorOrderBuilder();
+    document.getElementById(openButton.dataset.open)?.showModal();
+    return;
+  }
 
   const detail = event.target.closest("[data-detail]");
   if (detail) { showDrawer(detail.dataset.detail, detail.dataset.id); return; }
@@ -258,7 +316,6 @@ document.addEventListener("click", event => {
   if (action === "onshape") showToast("Onshape change preview opened · Demo only");
   if (action === "filters") showToast("Additional filters would open here");
   if (action === "load-more") showToast("More BOM lines would load from Sheets");
-  if (action === "create-order") showToast(roleCanMentor() ? "Vendor order draft created" : "Mentor role required");
   if (action === "open-ad") showToast("AutomationDirect requests stay in their separate list");
   if (["edit", "confirm-bom", "return-request", "lead-check", "mentor-confirm", "mark-ordered", "confirm-invoice"].includes(action)) {
     const messages = { edit: "Edit mode opened", "confirm-bom": "BOM entry confirmed · Demo only", "return-request": "Request returned for correction", "lead-check": "Request marked lead checked", "mentor-confirm": "Purchase confirmed by mentor", "mark-ordered": "Order marked placed", "confirm-invoice": "Invoice confirmed" };
@@ -308,17 +365,31 @@ document.getElementById("requestTabs").addEventListener("click", event => {
 });
 
 document.getElementById("deliverySearch").addEventListener("input", renderDeliveries);
+document.getElementById("vendorOrderVendor").addEventListener("change", renderVendorOrderBuilder);
+document.getElementById("vendorOrderLines").addEventListener("change", event => {
+  if (event.target.name === "selectedLine") {
+    const quantityInput = document.querySelector(`[name="quantity-${event.target.value}"]`);
+    quantityInput.disabled = !event.target.checked;
+  }
+  updateVendorOrderSummary();
+});
+document.getElementById("vendorOrderLines").addEventListener("input", updateVendorOrderSummary);
 
 document.querySelectorAll("dialog form").forEach(form => form.addEventListener("submit", event => {
   const submitter = event.submitter;
   if (submitter?.value === "cancel") return;
   event.preventDefault();
   const type = form.dataset.form;
+  if (type === "vendor-order") {
+    const selected = form.querySelectorAll('input[name="selectedLine"]:checked').length;
+    if (!selected) return;
+  }
   const nameField = form.querySelector("[required]");
   if (nameField && !nameField.value.trim()) { nameField.focus(); return; }
   form.closest("dialog").close();
   form.reset();
-  const messages = { part: "Draft BOM part saved to the project workbook · Demo", request: "Order request saved to the order workbook · Demo", delivery: "Delivery confirmation saved · Demo" };
+  const messages = { part: "Draft BOM part saved to the project workbook · Demo", request: "Order request saved to the order workbook · Demo", delivery: "Delivery confirmation saved · Demo", "vendor-order": "Vendor order created from the selected request lines · Demo" };
+  if (type === "vendor-order") renderVendorOrderBuilder();
   showToast(messages[type]);
 }));
 
@@ -349,6 +420,7 @@ function registerWebMCPTools() {
     annotations: { readOnlyHint: true, untrustedContentHint: false },
     execute(input) {
       if (!input || !["overview", "bom", "requests", "orders", "deliveries"].includes(input.section)) throw new Error("A valid BeanParts section is required.");
+      if (currentRole === "Student" && input.section === "requests") throw new Error("Student accounts do not have access to Requests.");
       routeTo(input.section);
       return { section: input.section, project: projects[currentProject].name };
     }

@@ -90,7 +90,7 @@ Use a slim top bar so wide BOM and order tables keep most of the screen.
 Left to right:
 1. Approved Team BEAN logo and BeanParts name.
 2. Project switcher showing the current project, such as 2026 Onseason Robot.
-3. Main sections: Overview, BOM, Requests, Orders, Deliveries.
+3. Main sections for leads and mentors: Overview, BOM, Requests, Orders, Deliveries. Student accounts omit Requests.
 4. Search.
 5. Current role/account menu.
 
@@ -101,7 +101,7 @@ Settings appears in the account menu for admins. Mentor-only actions appear insi
 Use:
 - A compact top bar with logo and current project.
 - Search/filter controls beneath the page title.
-- Bottom navigation for Overview, BOM, Requests, and Orders.
+- Bottom navigation for Overview, BOM, Requests, and Orders for leads and mentors. Student accounts omit Requests.
 - Deliveries and Settings under More when space is limited.
 
 Tables should become stacked, information-dense rows. Each row shows the most useful three or four fields, with tap-to-expand details. Do not force users to horizontally scroll through a full desktop table for ordinary tasks.
@@ -141,7 +141,7 @@ A practical summary of the selected project:
 - Ready for mentor.
 - Ordered but not fully delivered.
 - Recent BOM changes.
-- Quick links to the BOM and requests.
+- Quick links appropriate to the user's role. Student overviews do not show request queues or request links.
 
 This screen is a work queue, not an analytics dashboard. Counts should link to the exact filtered records.
 
@@ -178,7 +178,7 @@ A queue organized by status:
 - Needs correction.
 - Confirmed/closed.
 
-Students can submit allowed general requests and BOM entries. Leads can return a submission with a note, edit allowed fields, or confirm it. Only mentors can give final purchase confirmation.
+The Requests screen is available to leads and mentors, not students. Leads can create or check requests, return a submission with a note, edit allowed fields, or confirm it. Only mentors can give final purchase confirmation. Students continue to submit BOM entries from the BOM screen.
 
 Each row clearly shows:
 - Requester.
@@ -194,6 +194,8 @@ Use human labels such as Needs lead review instead of vague labels such as Proce
 ### 6. Orders
 
 An order contains one or more approved request lines and may serve several projects.
+
+When creating a vendor order, a mentor first chooses the vendor and then individually selects the approved request lines and order quantities to include. BeanParts must not automatically include all pending items from that vendor. The builder shows each selected line's project and a running estimated subtotal before the order is created.
 
 Order list shows:
 - Vendor.
@@ -305,7 +307,7 @@ The first visual prototype should contain fake data for:
 6. Mobile BOM and delivery views.
 7. Light and dark examples of one core screen.
 
-The prototype should demonstrate student, lead, and mentor states for the same records. It should not connect to live Sheets or Onshape.
+The prototype should demonstrate student, lead, and mentor states for the same records. Student mode must hide the Requests navigation, request queues, and direct Requests route. It should not connect to live Sheets or Onshape.
 
 ## Inputs still needed
 
