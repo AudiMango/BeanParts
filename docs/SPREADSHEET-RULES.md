@@ -4,7 +4,7 @@ Status: Requirements and proposed safeguards, not an implemented system.
 
 ## Non-negotiable storage rule
 
-All durable BeanParts business/workflow data must live in the existing spreadsheet system. This includes any approved requests, BOM records, ordering/receiving records, history, settings, and supporting record identifiers introduced by BeanParts.
+All durable BeanParts business/workflow data must live in the approved Google Sheets workbook system: one BOM workbook per project, one central ordering workbook, and one central Control workbook. This includes approved requests, BOM records, ordering/receiving records, history, settings, and supporting record identifiers introduced by BeanParts.
 
 There will be no separate authoritative business database. Any performance cache must be disposable and rebuildable from the spreadsheets. Deleting the cache must not lose team records. A save is not complete merely because data reached a cache.
 
@@ -34,7 +34,7 @@ Design Apps Script operations to stay efficient and within practical quotas:
 - use stable record IDs, expected versions/timestamps, and Apps Script locking where appropriate;
 - do not claim locking prevents a person from editing the Sheet at the same time.
 
-The exact batching boundaries, cache duration, freshness target, locking strategy, and conflict UI remain to be decided and tested against representative data and simultaneous users.
+Use an approximately 60-second mutable-data cache, up to five minutes for slow-changing reference data, and a normal 1–2 minute direct-edit freshness target. Use stable IDs, revision hashes, short locks, operation IDs, and field-by-field conflict resolution. Exact implementation still requires testing against representative copies and 1–5 simultaneous users.
 
 ## Rules to design and test
 
@@ -84,14 +84,16 @@ Preserve the familiar manual workflow and existing formulas. The inspected-workb
 
 ## History, backups, and recovery
 
-Proposed: helper tabs hold app operation history and relevant settings, subject to approval.
+History records submitted changes and conflict resolutions. Only unsubmitted drafts may be permanently deleted through BeanParts; submitted records are cancelled, rejected, voided, or archived.
+
+Make daily backups of active BOM workbooks, the ordering workbook, and the Control workbook. Retain rolling daily copies for 30 days. Keep separately labeled pre-migration/pre-repair backups outside that cleanup window.
 
 Do not promise that every direct sheet edit can be attributed to a named person until the available access and audit mechanisms are verified.
 
 Before live use:
 - Back up both existing files and document restoration steps.
 - Test on copies first.
-- Agree on backup ownership, retention, and access.
+- Verify the restricted shared-drive backup folder, 30-day cleanup, mentor restore access, and safety-copy process.
 - Test restoring data and rebuilding any cache.
 - Test recovery after partial writes and interrupted imports.
 - Confirm that disabling BeanParts leaves the team's spreadsheet workflow usable.
