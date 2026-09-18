@@ -2,111 +2,234 @@
 
 Status: Current architecture decision. Last updated September 18, 2026.
 
-This document is the canonical summary of the BeanParts system architecture. Product requirements and workflow details remain in the other planning documents.
+This document is the canonical summary of BeanParts system architecture. Product requirements and workflow details remain in the other planning documents.
+
+## Terminology
+
+- **Workbook** means an entire Google Sheets file.
+- **Sheet** means one tab inside a workbook.
+
+For example, the ordering workbook contains the `Robot Parts`, `Invoices`, and `AD Order List` sheets.
 
 ## 1. Current architecture decisions
 
 | Area | Decision |
 |---|---|
-| Client | Responsive browser application for students' and mentors' personal laptops and phones |
+| Client | Responsive browser application for Team BEAN laptops and phones |
+| Frontend | React + TypeScript + Vite single-page application |
+| Frontend hosting | Static frontend bundle served by Google Apps Script HTML Service |
+| Client/backend boundary | Typed wrapper around asynchronous `google.script.run` calls |
 | Backend/API | Google Apps Script |
-| Authentication | Google account authentication/OAuth |
+| Authentication | Team Google Workspace account authentication/OAuth |
+| Deployment identity | Web app executes as the user accessing it |
 | Authorization | BeanParts roles enforced by the Apps Script backend |
-| Data store | Google Sheets |
-| Source of truth | The underlying Sheets, including direct/manual edits |
-| Current hosting direction | Investigate serving the frontend from Google Apps Script as well as the backend |
-| Deployment shape | Central shared application and data; not a local Windows-only application |
+| Ownership | Team BEAN Google Workspace/shared drive |
+| Data store | Google Sheets workbooks |
+| Source of truth | The underlying workbooks, including direct/manual edits |
+| Expected peak activity | 1–5 simultaneous active users |
+| Direct Sheet access | All approved BeanParts users may edit the shared workbooks, subject to protected ranges |
+| PWA/custom domain | Not required for v1 |
+| Notifications | None in v1 |
+| Onshape import | Deferred until the core v1 is stable |
 
-The previous Sites prototype → Vercel/Supabase production assumption is superseded. The current design does not require Vercel, Supabase, Firebase, or another cloud database/host.
+The previous Sites prototype → Vercel/Supabase production assumption is superseded. Vercel, Supabase, Firebase, and a separate application database are not required by the current design.
 
-## 2. System boundaries
+## 2. Workbook topology
+
+BeanParts uses three workbook types.
+
+### BeanParts Control workbook
+
+One central workbook stores:
+
+- project directory and BOM workbook IDs;
+- Members and role assignments;
+- shared lists and status values;
+- application settings;
+- cross-workbook operation and recovery information.
+
+Only mentors manage membership and roles. Technical Admin permission does not grant Mentor purchasing or access-management authority.
+
+### Project BOM workbooks
+
+Each project has one BOM workbook created by a mentor through BeanParts from an approved template. Apps Script:
+
+1. copies the template;
+2. assigns a stable project ID;
+3. names and moves the workbook into the correct shared-drive folder;
+4. applies sharing and protected ranges;
+5. registers the workbook in BeanParts Control;
+6. checks for an existing result before retrying an uncertain creation.
+
+A project BOM workbook remains directly usable without BeanParts.
+
+### Central ordering workbook
+
+One team-wide ordering workbook remains separate from all BOM workbooks. It preserves the recognizable structure of the current template, including these sheets:
+
+- `Robot Parts`;
+- `Invoices`;
+- `AD Order List`.
+
+The current visible columns, budget summary, formulas, gray request-entry area, and yellow purchaser area should remain recognizable. BeanParts may add a small number of visible workflow columns at the right and hide technical ID/version columns farther right.
+
+A normal request may link to:
+
+- a project and BOM entry;
+- a project without a BOM entry, such as wire or project consumables;
+- no project/BOM entry, such as team stock, tools, or general supplies.
+
+Mentors may combine approved requests from one or several projects into a vendor order. Students can view requests, orders, invoices, and budget data. Only mentors can give final purchase approval, mark orders as placed, connect or edit invoices, and confirm invoices.
+
+## 3. AutomationDirect workflow
+
+The `AD Order List` is a separate covered-order workflow inside the central ordering workbook.
+
+- AutomationDirect items do not count against the team purchasing budget.
+- No invoice is required.
+- `Cost per × Quantity` remains useful for tracking covered retail value.
+- The app reports Team Spending and AD Covered Value separately.
+- An AD request may optionally link to a project, subsystem, or BOM entry.
+- AD requests still require lead review and mentor approval before submission.
+- Only a mentor records an AD order as placed.
+- Leads or mentors may confirm delivery/organization according to the normal delivery rules.
+
+## 4. System boundaries
 
 The browser provides the interface. It may validate input for quick feedback, filter and sort loaded data, and cache temporary view state. It is not trusted to authorize protected actions and must not contain privileged Google API credentials.
 
 Google Apps Script is the trusted application boundary. It is responsible for:
 
-- identifying the signed-in Google account through the selected authentication flow;
-- mapping that identity to BeanParts authorization and role permissions;
+- identifying the signed-in Workspace account;
+- requiring both the Team Workspace domain and an active Members entry;
+- mapping identity to Student, Lead, Mentor, and optional Admin responsibilities;
 - validating requests and applying business rules;
-- reading and writing Google Sheets;
-- enforcing protected actions in the backend even if a client is modified;
-- using locking, stable IDs, expected timestamps/versions, or other conflict controls where appropriate;
-- reporting verified success, conflicts, partial failure, or stale data to the frontend.
+- reading and writing the correct workbooks;
+- enforcing protected actions even if a client is modified;
+- reporting verified success, conflicts, partial failure, or stale data;
+- keeping cross-workbook writes idempotent and recoverable.
 
-Google Sheets stores the durable BeanParts business records. Team members must remain able to edit the Sheets directly outside BeanParts. Manual Sheet changes appear in BeanParts after refresh; verified BeanParts writes appear in those same Sheets.
+Google Sheets workbooks store the durable business records. Manual changes appear in BeanParts after refresh; verified BeanParts writes appear in the same workbooks.
 
 Authentication and authorization are separate:
 
-1. Google establishes who the account is.
-2. BeanParts determines whether that account is active and what Student, Lead, Mentor, Admin, or combined responsibilities it has.
-3. Apps Script enforces the allowed action before touching Sheets.
+1. Google establishes who the Workspace account is.
+2. BeanParts checks that the account is active in Members and loads its responsibilities.
+3. Apps Script authorizes each operation again before accessing Sheets.
 
-An Admin responsibility does not automatically grant Mentor purchasing authority.
+## 5. Membership and permissions
 
-## 3. Multi-user and data rules
+Members uses separate role flags because responsibilities may overlap:
 
-BeanParts is a multi-user system. Students, leads, and mentors may read and update shared records simultaneously from different devices and locations.
+`email · display_name · student · lead · mentor · admin · active · added_by · added_at · updated_at`
 
-Implementation must therefore:
+- Mentors add users, deactivate users, and grant or remove roles.
+- At least two mentors retain recovery access.
+- Students and leads may view operational invoice/budget data but cannot edit invoice records.
+- Admin is a technical-maintenance responsibility. It does not independently grant Mentor access management, purchasing, or invoice authority.
+- Protected ranges must enforce sensitive direct-Sheet edits as closely as Google Sheets permits.
+- Backend permission checks remain mandatory even when the UI hides or disables a control.
 
-- use stable record IDs rather than row positions;
-- batch range reads and writes instead of performing per-cell API operations;
-- filter and sort client-side when practical for an already-loaded data set;
-- use cache only for disposable or derived data that can be rebuilt from Sheets;
-- define a freshness target so direct Sheet edits become visible predictably;
-- detect unexpected sheet/tab/column structure before writing;
-- verify the durable Sheet write before reporting success;
-- test simultaneous app edits, direct Sheet edits, retries, and partial operations;
-- document race conditions that Apps Script locks cannot eliminate, especially direct human edits during an app transaction.
+## 6. Multi-user, freshness, and conflict rules
 
-## 4. Security constraints
+BeanParts targets 1–5 active simultaneous users.
 
-- Do not expose service-account keys, privileged OAuth tokens, or other privileged Google API credentials to browser code.
-- Treat all browser requests and role claims as untrusted.
-- Enforce authorization and validation in Apps Script, not only through visible/hidden UI controls.
-- Store secrets in an appropriate server-side configuration mechanism, not in Sheets or the repository.
-- Review direct Google Sheet sharing and protected ranges separately; backend authorization cannot prevent a person with direct Sheet edit access from editing permitted cells.
+- Load each screen with batched range reads rather than per-cell calls.
+- Save all changed fields for one operation in a batch.
+- Filter and sort already-loaded data in the browser.
+- Do not make backend calls on every keystroke.
+- Refresh mutable screens about every 60 seconds while open.
+- Refresh on initial load and when the app returns to the foreground.
+- Show Last refreshed and a manual Refresh action.
+- Keep mutable-data caches at approximately 60 seconds maximum.
+- Cache slow-changing reference data for up to five minutes.
+- Invalidate affected cache entries after successful writes.
+- Target direct Sheet changes becoming visible within 1–2 minutes.
 
-## 5. Implementation details still undecided
+Each record uses a stable UUID plus revision information. For a save:
 
-The architecture does not yet decide:
+1. the client sends the version/hash it originally read;
+2. Apps Script obtains a short lock and rereads the current record;
+3. if the record changed, BeanParts stops the save;
+4. the user sees their value beside the current Sheet value and chooses field by field;
+5. non-conflicting fields may merge automatically;
+6. the backend rechecks authorization and commits the resolved version;
+7. History records the resolution.
 
-- whether the first frontend uses Apps Script HTML Service and `google.script.run`, an HTTP-style Apps Script API, or another Apps Script-compatible boundary;
-- the exact OAuth/deployment configuration and how reliably account email/identity is available for the team's personal or school Google accounts;
-- which Google account owns and deploys the Apps Script project and Sheets;
-- the role/membership table schema and onboarding/removal workflow;
-- the API request/response format and error model;
-- cache location, cache duration, refresh behavior, and the visible freshness target;
-- transaction boundaries, locking strategy, optimistic concurrency fields, idempotency, and conflict-resolution UI;
-- quota/load targets based on expected users, record counts, and peak activity;
-- frontend framework/build tooling and how it will be packaged if served by Apps Script;
-- PWA/offline scope, custom-domain needs, and notification behavior;
-- final spreadsheet structural changes and migration/recovery steps;
-- Onshape integration details.
+A user can never select a value they lack permission to write. Locks protect BeanParts transactions but cannot prevent a person from editing a workbook directly during the operation; revision checks remain required.
 
-These questions require small feasibility tests and team decisions. They are not reasons to introduce another authoritative database.
+Mutation requests include idempotency/operation IDs. Retrying an uncertain save checks whether the earlier operation already completed before creating another record.
 
-## 6. Possible future migration paths
+## 7. API and error model
 
-Apps Script frontend hosting is the first hosting direction to investigate. If it later creates a specific demonstrated limitation—such as frontend tooling, performance, PWA support, custom domains, or maintainability—the frontend may move to a platform such as Vercel.
+Each backend operation returns a consistent result:
+
+- success flag and requested data;
+- request/operation ID;
+- safe error type and message on failure;
+- whether retry is safe;
+- current record/version when a conflict occurred.
+
+Ordinary goals are useful initial content within about two seconds and verified saves within about three seconds under normal conditions. If an operation exceeds roughly eight seconds, the UI shows a delayed state instead of appearing frozen.
+
+## 8. Record lifecycle and history
+
+- Only unsubmitted drafts may be permanently deleted through BeanParts.
+- A student may delete their own draft; leads and mentors may delete drafts they are allowed to manage.
+- Submitted records are cancelled, rejected, voided, or archived instead of deleted.
+- Orders and invoices are never permanently deleted through BeanParts after creation.
+- Direct deletion of a historical row is detected and flagged rather than silently recreated.
+- History records important actions, before/after values where appropriate, the acting user, time, and operation ID.
+
+## 9. Backups and migration
+
+- Make daily backup copies of every active BOM workbook, the Control workbook, and the ordering workbook.
+- Retain rolling daily backups for 30 days.
+- Store backups in a restricted shared-drive folder.
+- Create separately retained labeled backups before schema changes, bulk imports, or repairs.
+- Before restoration, create a safety copy of the current workbook.
+- Mentors initiate restoration.
+- Google Sheets version history remains an additional recovery layer.
+
+The existing legacy BOM and order sheets are archived read-only. BeanParts v1 starts with clean approved templates rather than automatically importing uncertain historical rows.
+
+## 10. v1 scope boundaries
+
+v1 includes core project/BOM, request, review, ordering, invoice, delivery, permission, synchronization, conflict, and recovery workflows.
+
+v1 does not include:
+
+- Onshape import;
+- email, push, or scheduled notifications;
+- offline editing or an installable PWA requirement;
+- a custom domain requirement;
+- a separate app database;
+- App Store or Google Play applications.
+
+Onshape importing begins only after the core v1 is stable. Its first release must preview changes and require human confirmation before writing to a BOM workbook.
+
+## 11. Possible future migration paths
+
+If Apps Script frontend hosting creates a demonstrated limitation—such as frontend tooling, performance, PWA support, custom domains, or maintainability—the React frontend may move to a platform such as Vercel.
 
 A frontend move must preserve this boundary:
 
-- Google Apps Script remains the backend/API.
-- Google Sheets remains the authoritative and directly editable data store.
+- Google Apps Script remains the backend/API unless a separate architecture decision replaces it.
+- Google Sheets workbooks remain authoritative and directly editable.
 - Backend role checks and business rules remain server-side.
-- The frontend communicates through a documented backend contract.
+- The frontend communicates through a documented backend adapter/contract.
 
-A separate database would be a new architecture decision requiring explicit approval and a migration plan. It is not the default next step and must not silently replace Sheets as the source of truth.
+A separate database requires explicit approval and a migration plan. It must not silently replace Sheets as the source of truth.
 
-## 7. Architecture validation before implementation
+## 12. Validation before production
 
-Before building production workflows:
-
-1. Test Google sign-in/identity with representative team accounts.
-2. Test the Apps Script deployment and frontend-hosting options on phone and laptop.
-3. Measure batched read/write performance and relevant quotas with representative sheet copies.
-4. Test backend role rejection independently of hidden UI controls.
-5. Test concurrent app writes, a simultaneous direct Sheet edit, retry/idempotency, and partial failure.
-6. Confirm the team-owned Google account/project arrangement and recovery access.
-7. Record the selected implementation details in this document or a future ADR before production use.
+1. Test Workspace sign-in and identity with representative student, lead, mentor, and admin accounts.
+2. Test the Apps Script deployment on phone and laptop.
+3. Verify the Team shared-drive ownership and at least two mentor recovery paths.
+4. Measure batched read/write performance using representative workbook copies.
+5. Test backend role rejection independently of hidden UI controls.
+6. Test protected ranges for direct workbook users.
+7. Test simultaneous app writes, a direct Sheet edit during a save, field-by-field conflict resolution, idempotent retries, and partial cross-workbook failure.
+8. Test project creation retry behavior.
+9. Test daily backup creation, 30-day cleanup, and restoration.
+10. Confirm the current workbook formulas and layouts survive the approved modest schema additions.
