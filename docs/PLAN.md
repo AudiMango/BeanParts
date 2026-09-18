@@ -1,6 +1,6 @@
 # BeanParts — Project Plan
 
-Status: Draft for review. Planning only; application development is not authorized yet. The architecture direction is confirmed; implementation details identified in [Architecture](ARCHITECTURE.md) remain open.
+Status: Draft for review. Planning only; application development is not authorized yet. The main architecture and v1 boundaries are confirmed in [Architecture](ARCHITECTURE.md); feasibility tests and exact template fields remain before production.
 
 ## Start here
 
@@ -19,7 +19,7 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 - Explain decisions in plain language; the developer handles technical details.
 - Support web and mobile use.
 - Reduce manual work in ordering and transferring Onshape information into the Big Sheet of Stuff.
-- Keep the two existing spreadsheets as the real record system.
+- Use one BOM workbook per project, one central ordering workbook based on the current order template, and one central Control workbook as the real record system.
 - Preserve direct spreadsheet editing and existing users' workflows.
 - Modest spreadsheet layout changes are allowed to support BeanParts, provided manual use stays similar.
 - All students can view BOMs and order sheets and add BOM parts. Leads can request orders and perform checks. Leads review student requests, BOM entries, and deliveries. Only mentors give final purchase confirmation, mark vendor orders as placed, and confirm invoices.
@@ -28,25 +28,27 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 - Do not modify live spreadsheets or deploy an application during planning.
 - Use a responsive browser application accessible from students' and mentors' personal laptops and phones.
 - Use Google Apps Script for the backend/API.
-- Use Google account authentication/OAuth for identity; enforce BeanParts roles separately in backend authorization.
-- Investigate serving the frontend from Google Apps Script. Do not assume Vercel, Supabase, Firebase, or another host/database is required.
+- Use Team Google Workspace authentication/OAuth, deploy the web app to execute as the accessing user, and enforce BeanParts roles separately in backend authorization.
+- Serve the React + TypeScript + Vite frontend from Google Apps Script HTML Service for v1. Do not assume Vercel, Supabase, Firebase, or another host/database is required.
 - Keep privileged Google API credentials out of the browser.
-- Design Sheets access around batch operations, practical client-side filtering/sorting, caching where appropriate, and concurrency protection.
+- Design Sheets access around batch operations, client-side filtering/sorting, approximately 60-second mutable-data caching, stable IDs, revision checks, short locks, idempotency, and field-level conflict resolution.
 - Keep the backend/data boundary separable so a later frontend-only move to a platform such as Vercel does not redesign the Sheets/Apps Script architecture.
 
 ## What is proposed, not yet confirmed
 
 ### First useful release
 
-1. View and search existing order requests and BOM records.
-2. Submit and update order requests through BeanParts.
-3. Follow the team's actual approval, ordering, and receiving process.
-4. Read changes made directly in Sheets.
-5. Import a selected Onshape assembly into a preview.
-6. Review additions, quantity changes, and other changes before saving to the BOM sheet.
-7. Show whether a save succeeded and when displayed data was last refreshed.
-8. Work well in desktop and phone browsers.
-9. Organize work into year/season/name projects, such as 2026 Onseason Robot and 2026 Offseason Altmill Upgrade. See [Project organization](PROJECTS.md).
+1. View and search project BOMs, normal requests, AutomationDirect requests, orders, deliveries, invoices, and budgets.
+2. Submit and update allowed BOM entries and requests through BeanParts.
+3. Follow the confirmed lead-review and mentor-approval workflow.
+4. Read changes made directly in Sheets within a normal 1–2 minute target.
+5. Show verified saves, Last refreshed, stale-data warnings, and field-by-field conflict resolution.
+6. Let mentors create a clean project BOM workbook from a template.
+7. Preserve the central ordering workbook's recognizable `Robot Parts`, `Invoices`, and `AD Order List` sheets with modest additions.
+8. Support normal purchases that may link to a BOM, project-only purchases such as wire, and team stock/supplies with no BOM link.
+9. Allow mentors to combine approved requests from several projects into one vendor order.
+10. Work well in normal desktop and phone browsers.
+11. Create daily workbook backups retained for 30 days.
 
 Ordering means recording and organizing purchases. BeanParts will not place purchases or handle payments automatically.
 
@@ -55,7 +57,8 @@ Ordering means recording and organizing purchases. BeanParts will not place purc
 These are not committed requirements:
 - Full inventory counts, storage bins, and reservations.
 - Manufacturing progress.
-- Notifications and dashboards.
+- Email, push, or scheduled notifications.
+- Onshape BOM importing after the core v1 is stable.
 - Vendor price or availability integrations.
 - Barcode scanning.
 - Offline editing.
@@ -67,17 +70,15 @@ The earlier discussion included some of these as if they were settled. They are 
 
 ### Ordering
 
-A student lead or mentor enters a request in either the existing sheet or BeanParts. Both represent the same request. The responsible person reviews it using the team's existing process. Someone places the order outside BeanParts, records the purchase, and later records receipt.
+An authorized user enters a request in the central ordering workbook or BeanParts. The request may link to a BOM entry, only to a project, or to team stock/supplies. Leads review allowed requests; mentors give final purchase approval, mark orders as placed, and manage invoices. Leads or mentors confirm delivery according to the agreed workflow.
 
-Exact statuses, required fields, approvers, and partial-delivery behavior will be mapped from the current workflow, not invented for the team.
+AutomationDirect requests stay on their separate covered-order sheet, require mentor approval, do not use invoices, and do not count against Team Spending.
 
 ### BOM updates
 
-A user chooses an Onshape assembly. BeanParts proposes BOM changes. A user checks the preview and accepts selected changes. Accepted information is saved in the existing BOM spreadsheet.
+For v1, users add and maintain BOM records manually in BeanParts or directly in each project's BOM workbook. Onshape importing is deferred until the core v1 is stable.
 
-Onshape remains the design source; Sheets remains the authoritative record for the team's BOM and ordering workflow. Imported CAD fields and manually maintained fields need clear rules. A CAD import must not erase purchasing notes, manufacturing status, or other team-entered information.
-
-Removing a part in CAD must not automatically delete a purchase request or erase history.
+A later Onshape importer will preview additions, removals, and quantity changes before a user accepts them. It must preserve team-entered fields and cannot automatically erase purchasing history.
 
 ## Work stages and approval points
 
