@@ -16,6 +16,17 @@ Status: Planning only. The application architecture is selected; implementation 
 
 The previous Sites prototype → Vercel/Supabase production assumption is superseded. Vercel is only a possible future frontend host; Supabase, Firebase, and other databases are not part of the current architecture.
 
+
+## Code organization and definition-first work
+
+Implementation must follow the module and dependency boundaries in [Codebase structure](CODEBASE-STRUCTURE.md) and the workflow in [Contributing](../CONTRIBUTING.md).
+
+Before feature code begins, define the feature's behavior, permissions, shared types/statuses, API contract, Sheet fields, validation, conflict behavior, and acceptance checks. React components remain presentation/interaction code; Apps Script services enforce workflows; repositories and Sheets helpers handle data access.
+
+Shared contracts are the single definition point for frontend/backend data exchange. Feature modules expose a small public interface, and code in another feature must not import their private internals.
+
+The exact Node.js version, package manager, test tools, lint/format rules, Apps Script deployment tool, and local API mock remain scaffolding decisions. Record significant choices in [decision records](decisions/README.md) before the team depends on them.
+
 ## Simple working agreement
 
 Adi/team decides how BeanParts should behave. The developer handles implementation details and explains only decisions that affect workflow, cost, access, reliability, or maintenance.
