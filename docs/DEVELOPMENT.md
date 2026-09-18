@@ -55,7 +55,7 @@ This is a draft, not a schedule or an approval to build:
 9. Obtain approval for a limited live pilot.
 10. Release after issues found in the pilot are resolved.
 
-If Onshape access is uncertain, check it early during architecture with a specifically approved feasibility test. Do not build a large app around an unverified integration.
+If Onshape access is uncertain, check it early during implementation planning with a specifically approved feasibility test. Do not build a large app around an unverified integration.
 
 Full inventory and other optional features need a separate scope decision.
 
