@@ -71,7 +71,9 @@ For rows created directly in Sheets, define when and how a stable ID is assigned
 
 Preserve the familiar manual workflow and existing formulas. The inspected-workbook field map and modest change proposal are documented in [Spreadsheet audit](SPREADSHEET-AUDIT.md). The proposal keeps the familiar tabs, adds columns at the far right, and adds Projects, Members, Deliveries, History, and Lists helper tabs. It is not approval to modify live sheets.
 
-## Onshape import rules
+## Post-v1 Onshape import rules
+
+Onshape import is deferred until the core v1 is stable. When it is added:
 
 - Start with an explicitly selected assembly and manual import action.
 - Preview changes before committing.
@@ -91,7 +93,7 @@ Make daily backups of active BOM workbooks, the ordering workbook, and the Contr
 Do not promise that every direct sheet edit can be attributed to a named person until the available access and audit mechanisms are verified.
 
 Before live use:
-- Back up both existing files and document restoration steps.
+- Keep the legacy files archived read-only; back up every active BOM, ordering, and Control workbook and document restoration steps.
 - Test on copies first.
 - Verify the restricted shared-drive backup folder, 30-day cleanup, mentor restore access, and safety-copy process.
 - Test restoring data and rebuilding any cache.
