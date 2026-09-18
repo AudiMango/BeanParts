@@ -14,4 +14,10 @@ BeanParts is a responsive browser application for FRC Team BEAN 1833's parts ord
 
 BeanParts reads and writes the same underlying workbooks that approved team members can edit manually. Direct edits should appear in BeanParts within 1–2 minutes, and a verified BeanParts save must appear in those same workbooks.
 
-See [Architecture](docs/ARCHITECTURE.md) for current decisions, undecided implementation details, and possible future migration paths. See [Project plan](docs/PLAN.md) for product scope.
+## Start here
+
+- [Documentation map](docs/README.md) — where each kind of information belongs.
+- [Architecture](docs/ARCHITECTURE.md) — current system decisions, undecided details, and future migration paths.
+- [Codebase structure](docs/CODEBASE-STRUCTURE.md) — planned modular React and Apps Script layout.
+- [Project plan](docs/PLAN.md) — product scope and delivery stages.
+- [Contributing](CONTRIBUTING.md) — definition-first workflow, coding boundaries, review, and completion checks.
