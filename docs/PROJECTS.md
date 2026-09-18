@@ -100,7 +100,7 @@ Do not require a new spreadsheet file for every project. Preserve existing subsy
 
 Direct spreadsheet edits must remain supported. A shared tab or hidden column is not automatically secure; review permissions for confirmations and role assignments.
 
-The previously supplied workbook contents remain uninspected. During the latest local check, the supplied upload paths were absent from the current workspace. Do not claim that this proposal already fits their columns or formulas.
+The available BOM workbook and order-template workbook were inspected on September 17, 2026; see [Spreadsheet audit](SPREADSHEET-AUDIT.md). The completed 2025 order sheet and live Google Sheets still require verification before finalizing the exact mapping.
 
 ## Acceptance checks
 
