@@ -72,62 +72,63 @@ The exported XLSX files contain Google Sheets formulas such as FILTER. Excel-com
 
 However, several exported formulas contain an actual #REF! reference, including parts of the Manufacturing List and COTS Parts logic. These must be checked in the live Google Sheet before development. BeanParts must not copy or “repair” those formulas automatically.
 
-## Proposed modest spreadsheet changes
+## Approved workbook direction and modest changes
 
-These are proposals for review, not changes already made.
+The final architecture keeps engineering BOMs and team purchasing separate:
 
-### Add columns to the existing editable tabs
+- one BOM workbook per project;
+- one central ordering workbook based on this template;
+- one central Control workbook.
 
-Add new columns to the far right so the current left-to-right workflow stays familiar.
+The ordering workbook keeps its three familiar visible sheets: `Robot Parts`, `Invoices`, and `AD Order List`.
 
-**BOM**
+### Robot Parts
 
-- Project
-- Subsystem
-- Assembly (optional)
-- BOM Entry ID
-- Part ID
-- Review Status
-- Reviewed By
-- Reviewed At
-- Onshape Source ID
-- Onshape Version
-- Last Updated
+Keep the current visible columns in their current order:
 
-**Robot Parts**
+`Part Description · Part Number · Quantity · $/pc · Total $ · Name of Person Requesting · Subsystem · Date Added · Vendor · Link to Product Page · Order Status · Date Ordered · Invoice #`
 
-- Project
-- Request ID
-- Request Status
-- Lead Review
-- Mentor Approval
-- Delivery Status
-- Confirmed By
-- Confirmed At
-- Last Updated
+Keep the budget summary, total formulas, gray request area, and yellow purchaser-only area recognizable.
 
-**Invoices**
+Add modest visible fields at the right:
 
-- Invoice ID
-- Project
-- Mentor Confirmation
-- Confirmed By
-- Confirmed At
-- Last Updated
+- Project (optional for team-wide stock/supplies);
+- Request Type (BOM Part, Stock, Consumable, Tool, Other);
+- Request Status;
+- Lead Review;
+- Mentor Approval;
+- Request ID;
+- optional BOM Entry ID.
 
-Existing columns remain. BeanParts should populate identifiers automatically, while spreadsheet users may continue entering normal records in the familiar columns.
+Place technical fields farther right and normally hide them:
 
-### Add helper tabs
+- Row Version;
+- Updated At;
+- Updated By;
+- Revision Hash;
+- Last Operation ID.
 
-| Helper tab | Purpose |
-|---|---|
-| Projects | Project ID, year, season, name, active/archived state |
-| Members | Team account, role, and active state; no passwords or secrets |
-| Deliveries | Partial and complete delivery confirmations linked to requests |
-| History | Important BeanParts actions and safe retry information |
-| Lists | Standard status, material, and subsystem values used by dropdowns |
+### Invoices
 
-These tabs are part of the spreadsheet record system. Hiding a helper tab is optional organization, not security.
+Keep the current visible fields:
+
+`Vendor · Invoice # · Description · Purchaser · Total · Status`
+
+Add fields at the right for stable Invoice/Order IDs, linked projects, document link, mentor confirmation, confirmer/timestamp, and update metadata. All approved users can view operational invoice/budget data. Only mentors edit/link/confirm invoices.
+
+Never store payment credentials, bank/card details, passwords, or equivalent sensitive information.
+
+### AutomationDirect
+
+Keep `AD Order List` as a separate covered-order workflow with its familiar visible columns:
+
+`Part # · Quantity · Cost per · Total · Note · Status`
+
+AD retail value remains `Quantity × Cost per`, but Team Cost is $0. AD totals are excluded from normal purchasing budget and invoice totals. No invoice link is required. Add optional Project/Subsystem/BOM links, approval fields, stable IDs, and update metadata at the right. AD requests still require lead review and mentor approval before submission.
+
+### Other workbooks
+
+The Control workbook owns Projects, Members, shared Lists, settings, and recovery metadata. Each project BOM workbook owns that project's BOM data and BOM history. Do not add those central records as duplicated editable copies in the ordering workbook.
 
 ## Recommended workflow states
 
@@ -181,11 +182,11 @@ This is why Part ID, BOM Entry ID, and Request ID must be separate.
 
 - Review the completed 2025 order sheet when available.
 - Check the apparent #REF! formulas in the live Google Sheet.
-- Confirm whether AD Order List remains a separate workflow or can become a filtered view.
+- Verify the separate `AD Order List` workflow and its approval/protection behavior on a workbook copy.
 - Confirm the final BOM confirmation rule.
 - Confirm which existing columns/formulas/scripts must remain untouched.
 - Test all changes on copies first.
-- Back up both live spreadsheets before any approved structure change.
+- Archive the legacy spreadsheets read-only and back up every affected active workbook before any approved structure change.
 
 ## Next prototype scope
 
@@ -201,4 +202,4 @@ The first fake-data UI prototype should show:
 - invoice confirmation;
 - a clear “saved to Google Sheets” or failure state.
 
-The prototype will not connect to live sheets, place purchases, or import Onshape data.
+The prototype will not connect to live sheets, place purchases, send notifications, or import Onshape data.

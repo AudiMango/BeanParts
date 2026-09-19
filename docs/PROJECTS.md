@@ -57,7 +57,8 @@ Full inventory and stock reservations remain optional scope; project organizatio
 - Each order request line names a project and optionally a subsystem/assembly.
 - Link a request to its BOM entry when relevant.
 - Allow purchases that are not BOM parts, such as project supplies.
-- A mentor may combine approved requests for several projects into one vendor order.
+- A mentor creates a vendor order by selecting the specific approved request lines and quantities being purchased. Selecting a vendor must never automatically include every request for that vendor.
+- A mentor may combine selected approved requests for several projects into one vendor order.
 - Preserve each project's quantities and links on the individual order lines.
 - Where one purchased line serves several projects, record quantity allocations and ensure their total equals the purchased quantity.
 - Do not duplicate a complete order or count its full cost once for every linked project.
@@ -68,7 +69,7 @@ Creating a BOM entry does not automatically approve or place an order.
 
 ## Confirmation responsibilities
 
-- Students add BOM entries and submit general requests.
+- Students add BOM entries but do not access the Requests section.
 - Leads review student submissions, confirm BOM entries, check order requests, and confirm deliveries.
 - Only mentors give final purchase confirmation, mark an order as placed with the vendor, and confirm invoices.
 - Lead review and mentor purchase confirmation are separate actions and labels.
@@ -90,17 +91,19 @@ Proposed: leads and mentors create, rename, complete, archive, and reopen projec
 
 A new offseason project may copy a previous robot BOM as a starting point. Copy structure and desired quantities as new project entries, reset review state, and retain a source reference. Never copy completed approvals, orders, deliveries, or stock allocations as new achievements.
 
-## Spreadsheet storage and compatibility
+## Workbook storage and compatibility
 
-All project definitions, BOM entries, request/order links, allocations, and durable review/history data belong in the existing spreadsheet system, not a separate authoritative database.
+Each project has one BOM workbook created by a mentor through BeanParts from an approved template. It stores that project's BOM and related BOM review/history data. It does not contain the team's ordering and invoice records.
 
-Proposed additions: a Projects tab and project identifiers on related rows. Keep familiar project names visible; helper IDs may be placed out of the main working area. Exact placement depends on inspecting the existing workbooks.
+One central ordering workbook stores normal requests, AutomationDirect requests, orders, deliveries, and invoices across all projects. A request may link to a project/BOM entry, a project without a BOM entry, or team-wide stock/supplies. Mentors may select and combine specific approved lines and quantities from several projects into one vendor order.
 
-Do not require a new spreadsheet file for every project. Preserve existing subsystem/project tabs where useful and map them explicitly. Whether the current layout uses shared tables or dedicated tabs must be determined from the actual workbooks.
+One central Control workbook stores the project directory/workbook IDs, Members/roles, shared lists, settings, and recovery metadata.
 
-Direct spreadsheet edits must remain supported. A shared tab or hidden column is not automatically secure; review permissions for confirmations and role assignments.
+Direct workbook editing remains supported. Stable IDs and explicit workbook IDs—not row positions or filenames—link records. A shared sheet or hidden column is not automatically secure; use protected ranges plus backend authorization.
 
-The previously supplied workbook contents remain uninspected. During the latest local check, the supplied upload paths were absent from the current workspace. Do not claim that this proposal already fits their columns or formulas.
+The available BOM workbook and order template were inspected on September 17–18, 2026. Legacy files will be archived read-only. v1 begins from clean approved templates rather than automatically importing historical rows.
+
+Mentors create, archive, and restore project workbooks. Project creation copies the template, registers the workbook, applies permissions, and is safe to retry without producing duplicates.
 
 ## Acceptance checks
 

@@ -90,18 +90,18 @@ Use a slim top bar so wide BOM and order tables keep most of the screen.
 Left to right:
 1. Approved Team BEAN logo and BeanParts name.
 2. Project switcher showing the current project, such as 2026 Onseason Robot.
-3. Main sections: Overview, BOM, Requests, Orders, Deliveries.
+3. Main sections for leads and mentors: Overview, BOM, Requests, Orders, Deliveries. Student accounts omit Requests.
 4. Search.
 5. Current role/account menu.
 
-Settings appears in the account menu for admins. Mentor-only actions appear inside the relevant order screen, not as a separate mentor application.
+Settings appears in the account menu. Mentors manage members, roles, projects, and purchasing authority; Admin controls are limited to technical settings and troubleshooting. Mentor-only actions appear inside the relevant workflow, not as a separate mentor application.
 
 ### Mobile
 
 Use:
 - A compact top bar with logo and current project.
 - Search/filter controls beneath the page title.
-- Bottom navigation for Overview, BOM, Requests, and Orders.
+- Bottom navigation for Overview, BOM, Requests, and Orders for leads and mentors. Student accounts omit Requests.
 - Deliveries and Settings under More when space is limited.
 
 Tables should become stacked, information-dense rows. Each row shows the most useful three or four fields, with tap-to-expand details. Do not force users to horizontally scroll through a full desktop table for ordinary tasks.
@@ -111,7 +111,7 @@ Tables should become stacked, information-dense rows. Each row shows the most us
 ### 1. Sign in
 
 - Team BEAN logo and BeanParts name.
-- One clear Google sign-in action if approved during architecture.
+- One clear Google sign-in action. Google establishes account identity; BeanParts backend authorization determines the user's permitted role actions.
 - Short explanation that spreadsheet users may continue using Sheets.
 - No large marketing page is needed for the private team application.
 
@@ -141,7 +141,7 @@ A practical summary of the selected project:
 - Ready for mentor.
 - Ordered but not fully delivered.
 - Recent BOM changes.
-- Quick links to the BOM and requests.
+- Quick links appropriate to the user's role. Student overviews do not show request queues or request links.
 
 This screen is a work queue, not an analytics dashboard. Counts should link to the exact filtered records.
 
@@ -178,7 +178,7 @@ A queue organized by status:
 - Needs correction.
 - Confirmed/closed.
 
-Students can submit allowed general requests and BOM entries. Leads can return a submission with a note, edit allowed fields, or confirm it. Only mentors can give final purchase confirmation.
+The Requests screen is available to leads and mentors, not students. Leads can create or check requests, return a submission with a note, edit allowed fields, or confirm it. Only mentors can give final purchase confirmation. Students continue to submit BOM entries from the BOM screen.
 
 Each row clearly shows:
 - Requester.
@@ -195,6 +195,8 @@ Use human labels such as Needs lead review instead of vague labels such as Proce
 
 An order contains one or more approved request lines and may serve several projects.
 
+When creating a vendor order, a mentor first chooses the vendor and then individually selects the approved request lines and order quantities to include. BeanParts must not automatically include all pending items from that vendor. The builder shows each selected line's project and a running estimated subtotal before the order is created.
+
 Order list shows:
 - Vendor.
 - Order identifier.
@@ -206,6 +208,17 @@ Order list shows:
 - Projects represented.
 
 Only mentors see enabled actions for final confirmation, Mark ordered, and Confirm invoice. Other users may view the permitted information with those actions disabled or absent. Do not rely on color alone to communicate permission.
+
+### 6A. AutomationDirect covered orders
+
+Keep this workflow visibly separate from normal purchases.
+
+- Show AutomationDirect part number, quantity, retail cost/value, note, status, optional project/subsystem/BOM link, and approval state.
+- Report covered value separately from Team Spending.
+- Do not request or display an invoice connection.
+- Require lead review and mentor approval before submission.
+- Only mentors mark the order as placed.
+- Leads or mentors may confirm delivery/organization.
 
 ### 7. Deliveries
 
@@ -221,12 +234,15 @@ A delivery confirmation never changes the mentor purchase/invoice confirmation h
 
 ### 8. Admin/settings
 
-Admins manage:
+Mentors manage:
 - Members and role assignments.
 - Project lifecycle.
-- Spreadsheet connections and expected sheet structure.
-- Onshape connections.
+
+Admins manage technical configuration and troubleshooting. Admin permission alone does not manage access or purchasing.
+- Workbook connections and expected sheet structure.
 - Sync health and recovery.
+
+Onshape connection controls are deferred until the post-v1 importer.
 - Display/theme preferences.
 
 Admin does not automatically grant mentor purchase authority.
@@ -256,7 +272,7 @@ Do not use Confirmed by itself where it could mean BOM review, purchase approval
 - Status chips are small and use both text and color.
 - Show success only after the underlying spreadsheet write is verified.
 - Show Last refreshed and a stale-data message when needed.
-- If a direct Sheet edit conflicts with an app edit, stop the affected save and show both values for review.
+- If a direct Sheet edit conflicts with an app edit, stop the affected save, show the user's value beside the current Sheet value, and let an authorized user choose field by field.
 - Use drawers/modals only for short tasks. Use full pages for complex order and BOM editing.
 - Keep animations short and functional: opening panels, saving states, and row updates. Avoid floating gradients, glowing borders, glass-heavy layers, and decorative motion.
 - Use familiar icons with visible labels for main actions. Do not make users guess from icons alone.
@@ -305,7 +321,7 @@ The first visual prototype should contain fake data for:
 6. Mobile BOM and delivery views.
 7. Light and dark examples of one core screen.
 
-The prototype should demonstrate student, lead, and mentor states for the same records. It should not connect to live Sheets or Onshape.
+The prototype should demonstrate student, lead, and mentor states for the same records. Student mode must hide the Requests navigation, request queues, and direct Requests route. Switching projects must update the visible project and reload that project's own fake data rather than relabeling the same dataset. It should not connect to live Sheets or Onshape.
 
 ## Inputs still needed
 
@@ -313,7 +329,7 @@ Before production UI implementation:
 - The primary PNG is stored at assets/brand/bean-logo-primary.png. An SVG and approved alternate-color variants are still desirable.
 - Confirmation of the palette-code discrepancy in the style guide.
 - Any preference for light-only versus light and dark mode in the first release.
-- Final workbook fields after the existing spreadsheets are inspected.
+- Final protected-range details and exact added-column order after testing the approved templates in Google Sheets.
 
 The stored logo is available for the fake-data prototype.
 
