@@ -44,14 +44,16 @@ After a milestone, report what changed, what was tested, remaining limitations, 
 - Keep plans and source code here.
 - Make future implementation changes on short-lived feature branches.
 - Submit a pull request: a reviewable proposal to add those changes to the stable main branch.
+- Follow [Collaboration](COLLABORATION.md): use a separate worktree per concurrent task, declare path ownership, and coordinate shared contracts and merge order.
 - Keep commits focused with understandable descriptions.
 - Test before merging.
 - Record important decisions and changes to scope.
+- End every modifying session with a report under `reports/` using `reports/_TEMPLATE.md`, and link it in the pull request.
 - Tag tested releases with version numbers and plain-language release notes.
 - Never commit credentials or real private team records.
 - Preserve existing work; do not import the Claude ZIP without reviewing it.
 
-These initial planning files may be committed directly as a documentation-only baseline. No branch protection, automated tests, deployments, or service integrations are claimed to be configured.
+Main is not currently protected by an enforced GitHub ruleset. AI code changes and concurrent work still use task branches and pull requests by repository convention. No automated tests, production deployments, or service integrations are claimed to be configured until verified.
 
 ## Proposed development sequence
 

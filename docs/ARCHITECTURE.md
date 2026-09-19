@@ -1,6 +1,6 @@
 # BeanParts — Architecture
 
-Status: Current architecture decision. Last updated September 18, 2026.
+Status: Current architecture decision. Last updated September 19, 2026.
 
 This document is the canonical summary of BeanParts system architecture. Product requirements and workflow details remain in the other planning documents.
 
@@ -79,7 +79,9 @@ A normal request may link to:
 - a project without a BOM entry, such as wire or project consumables;
 - no project/BOM entry, such as team stock, tools, or general supplies.
 
-Mentors may combine approved requests from one or several projects into a vendor order. Students can view requests, orders, invoices, and budget data. Only mentors can give final purchase approval, mark orders as placed, connect or edit invoices, and confirm invoices.
+Mentors create a vendor order by selecting the specific approved request lines and quantities being purchased; choosing a vendor must not automatically include every approved line from that vendor. A vendor order may combine selected requests from one or several projects.
+
+Students do not access the Requests section or request queues. They may view BOMs and the order, delivery, invoice, and budget information permitted to their role. Only mentors can give final purchase approval, mark orders as placed, connect or edit invoices, and confirm invoices.
 
 ## 3. AutomationDirect workflow
 
@@ -131,7 +133,81 @@ The codebase follows the modular dependency rules in [Codebase structure](CODEBA
 
 This organization is a current development constraint. Exact build, test, formatting, and deployment tools remain implementation decisions.
 
-## 5. Membership and permissions
+## 5. Repository architecture and exact paths
+
+The repository uses one canonical location for each responsibility. Contributors must not create alternate root-level `frontend/`, `backend/`, or `src/` implementations.
+
+### Actual repository baseline
+
+At the current planning baseline, the repository contains documentation, the approved logo asset, collaboration controls, and reports. The production application scaffold is not yet present.
+
+```text
+BeanParts/
+├── .github/
+│   └── pull_request_template.md
+├── .openai/
+│   └── hosting.json
+├── AGENTS.md
+├── CLAUDE.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── assets/
+│   └── brand/
+│       └── bean-logo-primary.png
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── CODEBASE-STRUCTURE.md
+│   ├── COLLABORATION.md
+│   ├── DEVELOPMENT.md
+│   ├── PLAN.md
+│   ├── PROJECTS.md
+│   ├── README.md
+│   ├── ROLES.md
+│   ├── SPREADSHEET-AUDIT.md
+│   ├── SPREADSHEET-RULES.md
+│   ├── UI-DIRECTION.md
+│   └── decisions/
+│       └── README.md
+├── dist/
+│   ├── app.js
+│   ├── bean-logo-primary.png
+│   ├── index.html
+│   └── styles.css
+└── reports/
+    ├── README.md
+    ├── _TEMPLATE.md
+    └── <dated session reports>.md
+```
+
+The merged `dist/` files are a generated static fake-data prototype used for supervised UI review. They are not the accepted production source-code layout, do not prove a production build exists, and must not become the architecture by accident. `.openai/hosting.json` configures that prototype preview only.
+
+### Required implementation paths
+
+Implementation adds these exact roots as the relevant scaffold or module is approved:
+
+```text
+apps/web/                    React + TypeScript + Vite frontend
+apps/web/src/app/            application composition and routing
+apps/web/src/features/       feature-owned frontend modules
+apps/web/src/components/     reusable presentation components
+apps/web/src/lib/            typed API adapter and frontend infrastructure
+apps/script/                 Google Apps Script backend project
+apps/script/src/api/         thin browser-callable entry points
+apps/script/src/auth/        identity, membership, and permission policies
+apps/script/src/services/    business workflows
+apps/script/src/repositories/ domain-oriented workbook access
+apps/script/src/sheets/      ranges, headers, row mapping, and batching
+apps/script/src/validation/  authoritative validation
+apps/script/src/concurrency/ locks, revisions, conflicts, and idempotency
+apps/script/src/config/      validated non-secret configuration
+packages/contracts/src/      shared frontend/backend contracts
+scripts/                     repository build, validation, and deployment helpers
+```
+
+Detailed feature folder rules and dependency direction are canonical in [Codebase structure](CODEBASE-STRUCTURE.md). Parallel ownership and handoff rules are canonical in [Collaboration](COLLABORATION.md). Any pull request that adds, removes, or moves an architectural path must update both the actual tree above and the codebase-structure document.
+
+## 6. Membership and permissions
 
 Members uses separate role flags because responsibilities may overlap:
 
@@ -144,7 +220,7 @@ Members uses separate role flags because responsibilities may overlap:
 - Protected ranges must enforce sensitive direct-Sheet edits as closely as Google Sheets permits.
 - Backend permission checks remain mandatory even when the UI hides or disables a control.
 
-## 6. Multi-user, freshness, and conflict rules
+## 7. Multi-user, freshness, and conflict rules
 
 BeanParts targets 1–5 active simultaneous users.
 
@@ -174,7 +250,7 @@ A user can never select a value they lack permission to write. Locks protect Bea
 
 Mutation requests include idempotency/operation IDs. Retrying an uncertain save checks whether the earlier operation already completed before creating another record.
 
-## 7. API and error model
+## 8. API and error model
 
 Each backend operation returns a consistent result:
 
@@ -186,7 +262,7 @@ Each backend operation returns a consistent result:
 
 Ordinary goals are useful initial content within about two seconds and verified saves within about three seconds under normal conditions. If an operation exceeds roughly eight seconds, the UI shows a delayed state instead of appearing frozen.
 
-## 8. Record lifecycle and history
+## 9. Record lifecycle and history
 
 - Only unsubmitted drafts may be permanently deleted through BeanParts.
 - A student may delete their own draft; leads and mentors may delete drafts they are allowed to manage.
@@ -195,7 +271,7 @@ Ordinary goals are useful initial content within about two seconds and verified 
 - Direct deletion of a historical row is detected and flagged rather than silently recreated.
 - History records important actions, before/after values where appropriate, the acting user, time, and operation ID.
 
-## 9. Backups and migration
+## 10. Backups and migration
 
 - Make daily backup copies of every active BOM workbook, the Control workbook, and the ordering workbook.
 - Retain rolling daily backups for 30 days.
@@ -207,7 +283,7 @@ Ordinary goals are useful initial content within about two seconds and verified 
 
 The existing legacy BOM and order sheets are archived read-only. BeanParts v1 starts with clean approved templates rather than automatically importing uncertain historical rows.
 
-## 10. v1 scope boundaries
+## 11. v1 scope boundaries
 
 v1 includes core project/BOM, request, review, ordering, invoice, delivery, permission, synchronization, conflict, and recovery workflows.
 
@@ -222,7 +298,7 @@ v1 does not include:
 
 Onshape importing begins only after the core v1 is stable. Its first release must preview changes and require human confirmation before writing to a BOM workbook.
 
-## 11. Possible future migration paths
+## 12. Possible future migration paths
 
 If Apps Script frontend hosting creates a demonstrated limitation—such as frontend tooling, performance, PWA support, custom domains, or maintainability—the React frontend may move to a platform such as Vercel.
 
@@ -235,7 +311,7 @@ A frontend move must preserve this boundary:
 
 A separate database requires explicit approval and a migration plan. It must not silently replace Sheets as the source of truth.
 
-## 12. Validation before production
+## 13. Validation before production
 
 1. Test Workspace sign-in and identity with representative student, lead, mentor, and admin accounts.
 2. Test the Apps Script deployment on phone and laptop.

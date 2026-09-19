@@ -20,6 +20,8 @@ The core rules are:
 
 This is the target layout. Directories may be introduced as their first real feature is built; empty placeholder directories are unnecessary.
 
+The current repository contains documentation plus a generated fake-data prototype under `dist/`; it does not yet contain the accepted production `apps/`, `packages/`, or `scripts/` scaffold. The exact current tree is maintained in [Architecture](ARCHITECTURE.md). When scaffolding adds a path below, update both documents in the same pull request.
+
 ```text
 BeanParts/
 ├── apps/
@@ -50,12 +52,16 @@ BeanParts/
 ├── docs/
 │   ├── decisions/
 │   └── ...
+├── reports/
 ├── scripts/
+├── AGENTS.md
 ├── CONTRIBUTING.md
 └── README.md
 ```
 
 This structure is a boundary map, not permission to implement the application or alter live Sheets.
+
+Do not create competing root-level `frontend/`, `backend/`, or `src/` directories. Generated deployment output must be reproducible from owned source and must not replace the source layout above.
 
 ## Frontend modules
 

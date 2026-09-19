@@ -69,7 +69,7 @@ Before development, document each existing column:
 
 For rows created directly in Sheets, define when and how a stable ID is assigned. Missing or duplicate IDs must be detected without corrupting unrelated rows.
 
-Preserve the familiar manual workflow and existing formulas. The inspected-workbook field map and modest change proposal are documented in [Spreadsheet audit](SPREADSHEET-AUDIT.md). The proposal keeps the familiar tabs, adds columns at the far right, and adds Projects, Members, Deliveries, History, and Lists helper tabs. It is not approval to modify live sheets.
+Preserve the familiar manual workflow and existing formulas. The inspected-workbook field map and modest change proposal are documented in [Spreadsheet audit](SPREADSHEET-AUDIT.md). The ordering workbook keeps its familiar `Robot Parts`, `Invoices`, and `AD Order List` sheets and adds approved fields at the right. Central Projects, Members, Lists, settings, and recovery metadata belong in the Control workbook; project BOM records and BOM history belong in each project BOM workbook. It is not approval to modify live Sheets.
 
 ## Post-v1 Onshape import rules
 
@@ -119,7 +119,7 @@ These checks are release criteria, not claims that implementation has passed.
 
 ## Role permissions and direct sheet use
 
-See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During implementation planning, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and lead requests. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
+See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During implementation planning, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and Lead/Mentor request handling. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
 
 
 ## Inspected workbook note

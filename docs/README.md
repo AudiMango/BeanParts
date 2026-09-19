@@ -8,6 +8,7 @@ Start here when looking for project information. Each subject has one primary do
 |---|---|---|
 | [Architecture](ARCHITECTURE.md) | Current system-level decisions and boundaries | Hosting, data ownership, authentication, or major system boundaries change |
 | [Codebase structure](CODEBASE-STRUCTURE.md) | Planned React and Apps Script folder structure, module boundaries, and dependency rules | A module is added, moved, split, or given a new responsibility |
+| [Collaboration](COLLABORATION.md) | Parallel branch/worktree ownership, task boundaries, handoff, and conflict process | The team changes how concurrent work is coordinated |
 | [Project plan](PLAN.md) | Product scope, milestones, and deferred work | Scope or delivery order changes |
 | [Development and handoff](DEVELOPMENT.md) | Environment, release, ownership, and operational process | Build, testing, deployment, or handoff procedures change |
 | [Roles and permissions](ROLES.md) | Student, Lead, Mentor, and Admin capabilities | A role or protected action changes |
@@ -17,6 +18,8 @@ Start here when looking for project information. Each subject has one primary do
 | [UI direction](UI-DIRECTION.md) | Navigation, screens, responsive behavior, and role-based UI | User flows or interface patterns change |
 | [Decision records](decisions/README.md) | Why significant technical decisions were made | A significant technical choice is accepted or replaced |
 | [Contributing](../CONTRIBUTING.md) | How contributors plan, implement, test, review, and document changes | The team changes its engineering workflow |
+| [Agent instructions](../AGENTS.md) | Mandatory repository-wide startup and completion rules for AI contributors | Agent workflow, boundaries, or required reads change |
+| [Session reports](../reports/README.md) | Append-only session/change status and handoff records | Every repository-modifying session |
 
 ## Authority order
 
@@ -27,6 +30,8 @@ When documents appear to disagree, use this order:
 3. [Roles and permissions](ROLES.md) and [Spreadsheet rules](SPREADSHEET-RULES.md) for security and data behavior.
 4. [Project plan](PLAN.md) for scope and sequencing.
 5. Other design and audit notes.
+
+`AGENTS.md` and `docs/COLLABORATION.md` govern how work is performed, but they do not override current product or architecture decisions. Session reports are historical evidence, not decision authority.
 
 Do not silently choose between conflicting documents. Open a focused documentation change that resolves the conflict and links the affected documents.
 
@@ -49,3 +54,5 @@ Every proposed implementation document must clearly separate confirmed decisions
 - Remove or mark superseded text; do not leave two active answers.
 - Use workbook for a Google Sheets file and sheet for a tab.
 - Never place credentials, private team data, invoice documents, or payment details in repository documentation.
+- Update the actual and planned path map in `ARCHITECTURE.md` and `CODEBASE-STRUCTURE.md` whenever repository structure changes.
+- Add the required report under `reports/` before every modifying session is handed off.

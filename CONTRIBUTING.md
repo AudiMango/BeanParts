@@ -4,10 +4,13 @@ BeanParts is intended to be maintained by changing student teams with occasional
 
 Read these first:
 
-1. [Documentation map](docs/README.md)
-2. [Architecture](docs/ARCHITECTURE.md)
-3. [Codebase structure](docs/CODEBASE-STRUCTURE.md)
-4. The product or workflow document related to your change
+1. [Repository-wide agent instructions](AGENTS.md), when using an AI contributor
+2. [Documentation map](docs/README.md)
+3. [Architecture](docs/ARCHITECTURE.md)
+4. [Codebase structure](docs/CODEBASE-STRUCTURE.md)
+5. [Collaboration workflow](docs/COLLABORATION.md)
+6. The product or workflow document related to your change
+7. The newest relevant [session reports](reports/README.md)
 
 ## Before starting a feature
 
@@ -35,8 +38,11 @@ Do not begin by adding UI. Confirm the shared contract and backend rule first wh
 6. Update tests and primary documentation in the same pull request.
 7. Obtain review before merging.
 8. Never test uncertain writes against production workbooks.
+9. Create the required session report before handoff and link it in the pull request.
 
 Large features should be divided into contracts, backend behavior, frontend behavior, and integration work when those pieces can be reviewed independently.
+
+For parallel work, use a separate worktree per branch, declare path ownership, and agree on contract and merge order before dependent implementation begins. See [Collaboration](docs/COLLABORATION.md).
 
 ## Definition of ready
 
@@ -64,6 +70,7 @@ A change is complete when:
 - tests and static checks pass;
 - affected documentation is updated;
 - the pull request explains remaining limitations and rollback/recovery needs.
+- a final session report under `reports/` matches the branch, diff, and verification.
 
 ## Modular coding rules
 

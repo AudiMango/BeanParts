@@ -4,9 +4,9 @@ Status: User-confirmed role outline with proposed details. Planning only.
 
 ## Confirmed by the user
 
-- All students can view BOMs and order sheets and add parts to a BOM.
-- Students can submit BOM entries and other team requests.
-- Student leads can request orders and review or confirm student submissions, including orders, deliveries, BOM entries, and other requests.
+- Students can view BOMs and permitted order information and add or submit parts to a BOM.
+- Students do not access the Requests section, request navigation, or request queues.
+- Student leads can create/check order requests and review or confirm allowed submissions, including deliveries and BOM entries.
 - Mentors can perform those actions. Only mentors give final confirmation for orders, mark vendor orders as placed, and confirm invoices.
 - Admin is a separate technical responsibility; it does not grant Mentor purchasing or access-management authority.
 - Spreadsheet structure can change somewhat, while remaining usable in a similar manner.
@@ -17,18 +17,19 @@ Lead confirmation means checking student-submitted information before it moves f
 
 | Action | Student | Student lead | Mentor |
 |---|---|---|---|
-| View BOMs and order sheets | Yes | Yes | Yes |
+| View BOMs and permitted order information | Yes | Yes | Yes |
 | Add or submit BOM parts | Yes | Yes | Yes |
-| Submit other requests | Yes | Yes | Yes |
+| Access the Requests section/queues | No | Yes | Yes |
+| Submit other requests | No | Yes | Yes |
 | Submit an order request | No, submit through a lead | Yes | Yes |
-| Check student requests | No | Yes | Yes |
+| Check requests | No | Yes | Yes |
 | Confirm a BOM entry | No | Yes | Yes |
 | Confirm delivered parts | No | Yes | Yes |
 | Give final purchase confirmation | No | No | Yes |
 | Confirm invoice details | No | No | Yes |
 | Record an order as actually placed | No | No | Yes |
 
-The user's latest clarification confirms lead review of orders, deliveries, BOM entries, and other student requests. Items marked pending remain undecided. Editing/deleting other users' BOM entries, applying bulk CAD imports, cancelling requests, and changing already-approved requests remain to be specified. Invoice confirmation does not itself mean payment processing.
+The user's latest clarification removes Requests access from Student accounts while retaining student BOM submission. Leads review orders, deliveries, and BOM entries. Items marked pending remain undecided. Editing/deleting other users' BOM entries, applying bulk CAD imports, cancelling requests, and changing already-approved requests remain to be specified. Invoice confirmation does not itself mean payment processing.
 
 Proposed approval workflow: a lead prepares or checks the order request, a mentor gives final confirmation, the purchase is placed outside BeanParts, order placement is recorded, and a lead or mentor confirms delivered quantities. Decide how partial deliveries are represented after reviewing the workbook.
 

@@ -95,7 +95,7 @@ A new offseason project may copy a previous robot BOM as a starting point. Copy 
 
 Each project has one BOM workbook created by a mentor through BeanParts from an approved template. It stores that project's BOM and related BOM review/history data. It does not contain the team's ordering and invoice records.
 
-One central ordering workbook stores normal requests, AutomationDirect requests, orders, deliveries, and invoices across all projects. A request may link to a project/BOM entry, a project without a BOM entry, or team-wide stock/supplies. Mentors may combine approved requests from several projects into one vendor order.
+One central ordering workbook stores normal requests, AutomationDirect requests, orders, deliveries, and invoices across all projects. A request may link to a project/BOM entry, a project without a BOM entry, or team-wide stock/supplies. Mentors may select and combine specific approved lines and quantities from several projects into one vendor order.
 
 One central Control workbook stores the project directory/workbook IDs, Members/roles, shared lists, settings, and recovery metadata.
 

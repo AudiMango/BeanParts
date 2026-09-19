@@ -22,7 +22,7 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 - Use one BOM workbook per project, one central ordering workbook based on the current order template, and one central Control workbook as the real record system.
 - Preserve direct spreadsheet editing and existing users' workflows.
 - Modest spreadsheet layout changes are allowed to support BeanParts, provided manual use stays similar.
-- All students can view BOMs and order sheets and add BOM parts. Leads can request orders and perform checks. Leads review student requests, BOM entries, and deliveries. Only mentors give final purchase confirmation, mark vendor orders as placed, and confirm invoices.
+- Students can view BOMs and permitted order information and add BOM parts, but they do not access the Requests section or request queues. Leads create/check requests and review BOM entries and deliveries. Only mentors give final purchase confirmation, select the specific approved lines and quantities for a vendor order, mark vendor orders as placed, and confirm invoices.
 - Keep source code and planning documents in this repository with version history.
 - Repository ownership may transfer from AudiMango to the team later.
 - Do not modify live spreadsheets or deploy an application during planning.
@@ -38,15 +38,15 @@ This replaces the earlier suggestion of a database-authoritative hybrid. That su
 
 ### First useful release
 
-1. View and search project BOMs, normal requests, AutomationDirect requests, orders, deliveries, invoices, and budgets.
-2. Submit and update allowed BOM entries and requests through BeanParts.
+1. View and search project BOMs, normal requests, AutomationDirect requests, orders, deliveries, invoices, and budgets as permitted by role. Student accounts omit Requests and request queues.
+2. Submit and update allowed BOM entries and, for Leads/Mentors, requests through BeanParts.
 3. Follow the confirmed lead-review and mentor-approval workflow.
 4. Read changes made directly in Sheets within a normal 1–2 minute target.
 5. Show verified saves, Last refreshed, stale-data warnings, and field-by-field conflict resolution.
 6. Let mentors create a clean project BOM workbook from a template.
 7. Preserve the central ordering workbook's recognizable `Robot Parts`, `Invoices`, and `AD Order List` sheets with modest additions.
 8. Support normal purchases that may link to a BOM, project-only purchases such as wire, and team stock/supplies with no BOM link.
-9. Allow mentors to combine approved requests from several projects into one vendor order.
+9. Allow mentors to select specific approved request lines and quantities, including lines from several projects, for one vendor order. Selecting a vendor never adds every matching request automatically.
 10. Work well in normal desktop and phone browsers.
 11. Create daily workbook backups retained for 30 days.
 
@@ -109,15 +109,17 @@ The backend should be planned in detail before significant Work usage is spent o
 
 ### Target module/document structure
 
-The implementation should remain modular. Frontend code should separate components/pages/hooks from data services such as `dataService`, `mockProvider`, and `appsScriptProvider`. Backend code should separate API routing, authentication, permissions, Sheets access, validation, and configuration rather than placing all logic in one Apps Script file.
+The implementation follows the exact paths in [Codebase structure](CODEBASE-STRUCTURE.md): frontend source under `apps/web/src/`, Apps Script backend source under `apps/script/src/`, and shared frontend/backend contracts under `packages/contracts/src/`. Do not create alternate top-level `frontend/`, `backend/`, or `src/` trees.
+
+Frontend feature code separates components/pages/hooks from the typed API/data adapter. The prototype may use a mock provider; production uses the Apps Script adapter. Backend code separates API routing, authentication/permissions, services, repositories, Sheets mechanics, validation, concurrency, and configuration rather than placing all logic in one Apps Script file.
 
 Backend planning should produce or maintain these specifications:
 
-- `DATABASE_SCHEMA.md` — workbook/sheet schemas, IDs, relationships, types, and ownership rules.
-- `API.md` — frontend/backend request and response contracts.
-- `AUTH.md` — Google OAuth/sign-in and session/authentication flow.
-- `PERMISSIONS.md` — server-enforced role capabilities, coordinated with `ROLES.md`.
-- `DEVELOPMENT.md` — module layout, environments, deployment, testing, and contribution workflow.
+- `docs/DATABASE-SCHEMA.md` — workbook/sheet schemas, IDs, relationships, types, and ownership rules.
+- `docs/API.md` — frontend/backend request and response contracts, coordinated with `packages/contracts/src/`.
+- `docs/AUTH.md` — Google OAuth/sign-in and session/authentication flow.
+- `docs/PERMISSIONS.md` — server-enforced capabilities, coordinated with `docs/ROLES.md`.
+- `docs/DEVELOPMENT.md` — environments, deployment, testing, and contribution workflow.
 
 ### Planning before Work implementation
 
@@ -150,7 +152,7 @@ These are implementation checkpoints rather than rigid one-session limits. The p
 
 1. The BOM workbook and order-sheet template were inspected. See [Spreadsheet audit](SPREADSHEET-AUDIT.md). The completed 2025 order sheet is still needed later to verify the template against a full season of actual use.
 2. Basic roles received; see [Roles and permissions](ROLES.md). Lead review of requests/BOM entries/deliveries and mentor-only purchase confirmation/order placement are confirmed. The proposed spreadsheet fields for recording those steps are in the audit.
-3. Modest spreadsheet changes are acceptable in principle. The audit proposes adding fields at the right side of familiar tabs plus a small set of helper tabs. Nothing has been changed in a live spreadsheet.
+3. Modest spreadsheet changes are acceptable in principle. The audit keeps the ordering workbook's familiar tabs and adds fields at the right; central Projects/Members/Lists/settings live in the Control workbook, while BOM data/history live in project BOM workbooks. Nothing has been changed in a live spreadsheet.
 
 ### Needed before implementation begins
 
@@ -168,11 +170,11 @@ Do not send passwords, API secrets, payment information, or unnecessary personal
 
 ## Current limitations and source status
 
-The initial documents are based on the user's instructions in this conversation. The uploaded BeanParts-HANDOFF.md, Pasted markdown.md, and BeanParts-step-1.0.zip have not been inspected with the currently available tools. No claims are made about their contents, quality, or completion.
+The repository documents are the durable project context; future contributors should not require private chat history to learn current decisions. Historical external handoff files or code archives are reference material only unless reviewed and deliberately incorporated through a pull request.
 
 The two currently available spreadsheet files have been inspected. The completed 2025 order sheet and the live Google Sheets still need verification, especially Google-specific formulas and several apparent #REF! references. The Onshape setup has not yet been inspected. Apps Script and Sheets are the selected backend/data direction, but account identity behavior, quotas, deployment mode, performance, exact costs, concurrency behavior, and the feasibility of preserving every existing workflow still require validation before promising delivery dates.
 
-Existing Claude code is reference material, not an approved implementation. Review it once accessible and reuse only pieces consistent with the approved requirements.
+Code from older tools, archives, or prototype branches is reference material, not an approved production implementation. Reuse only pieces reviewed against the current architecture and required source layout.
 
 ## Related documents
 

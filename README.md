@@ -16,8 +16,11 @@ BeanParts reads and writes the same underlying workbooks that approved team memb
 
 ## Start here
 
+- [Agent instructions](AGENTS.md) — mandatory startup, architecture, path, collaboration, and reporting rules for AI agents.
 - [Documentation map](docs/README.md) — where each kind of information belongs.
 - [Architecture](docs/ARCHITECTURE.md) — current system decisions, undecided details, and future migration paths.
 - [Codebase structure](docs/CODEBASE-STRUCTURE.md) — planned modular React and Apps Script layout.
+- [Collaboration workflow](docs/COLLABORATION.md) — branch/worktree ownership, parallel task boundaries, and handoffs.
 - [Project plan](docs/PLAN.md) — product scope and delivery stages.
 - [Contributing](CONTRIBUTING.md) — definition-first workflow, coding boundaries, review, and completion checks.
+- [Session reports](reports/README.md) — required end-of-session status and change records.

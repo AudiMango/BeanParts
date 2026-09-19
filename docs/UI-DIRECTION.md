@@ -321,7 +321,7 @@ The first visual prototype should contain fake data for:
 6. Mobile BOM and delivery views.
 7. Light and dark examples of one core screen.
 
-The prototype should demonstrate student, lead, and mentor states for the same records. Student mode must hide the Requests navigation, request queues, and direct Requests route. It should not connect to live Sheets or Onshape.
+The prototype should demonstrate student, lead, and mentor states for the same records. Student mode must hide the Requests navigation, request queues, and direct Requests route. Switching projects must update the visible project and reload that project's own fake data rather than relabeling the same dataset. It should not connect to live Sheets or Onshape.
 
 ## Inputs still needed
 
