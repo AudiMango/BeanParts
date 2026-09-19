@@ -85,6 +85,57 @@ Removing a part in CAD must not automatically delete a purchase request or erase
 
 No stage approval implies permission to spend money, change live sheet layouts, or deploy to production.
 
+
+## Backend development plan
+
+The backend should be planned in detail before significant Work usage is spent on implementation. Normal chat/lower-thinking planning should settle the architecture and contracts first; Work should primarily execute those specifications rather than repeatedly redesigning the system.
+
+### Backend phases
+
+1. **Define the data contract/schema.** Document the Project BOM workbook, Ordering workbook, AutomationDirect (AD) request/order data, users and roles, project configuration, vendors, stable IDs, relationships, field types, required fields, and which values BeanParts owns versus values people may edit directly in Sheets.
+2. **Define the Google Apps Script API.** The React frontend should call a stable API/data-service interface and must not depend directly on spreadsheet row/column layout. This preserves the ability to change frontend hosting later without rewriting the application.
+3. **Build the Google Sheets data layer.** Implement modular read/write services, row-to-object conversion, stable ID handling, validation, efficient batching/caching where safe, and Apps Script `LockService` around writes that could conflict. Google Sheets remains the source of truth and direct spreadsheet editing remains supported.
+4. **Add authentication and authorization.** Use Google OAuth/sign-in to identify users, map accounts to BeanParts roles, and enforce permissions on the backend. Hiding controls in React is not sufficient security; Apps Script must reject unauthorized operations.
+5. **Connect React to real data.** Keep UI components independent of the backend implementation through a data service/provider layer. The prototype may use a mock provider; production uses an Apps Script provider. Project switching must reload the selected project's actual BOM/order data.
+6. **Integration testing and migration.** Test concurrent and direct spreadsheet edits, malformed rows, role restrictions, selective vendor-order item creation, AD requests and mentor approval, project switching, OAuth/session failures, and recovery behavior. Start fresh in the new structure and keep old sheets archived as previously decided.
+
+### Target module/document structure
+
+The implementation should remain modular. Frontend code should separate components/pages/hooks from data services such as `dataService`, `mockProvider`, and `appsScriptProvider`. Backend code should separate API routing, authentication, permissions, Sheets access, validation, and configuration rather than placing all logic in one Apps Script file.
+
+Backend planning should produce or maintain these specifications:
+
+- `DATABASE_SCHEMA.md` — workbook/sheet schemas, IDs, relationships, types, and ownership rules.
+- `API.md` — frontend/backend request and response contracts.
+- `AUTH.md` — Google OAuth/sign-in and session/authentication flow.
+- `PERMISSIONS.md` — server-enforced role capabilities, coordinated with `ROLES.md`.
+- `DEVELOPMENT.md` — module layout, environments, deployment, testing, and contribution workflow.
+
+### Planning before Work implementation
+
+Before using substantial Work usage for backend coding, settle:
+
+1. Database/schema specification.
+2. API contract.
+3. Permissions matrix.
+4. Apps Script module architecture.
+5. Authentication flow.
+6. Concurrency, validation, and error-handling rules.
+7. Prototype versus production hosting/environment boundaries.
+
+The immediate backend planning priority is the database/schema specification, using the existing BOM and Order Sheet structures as the starting point.
+
+### Tentative Work implementation sessions
+
+1. Apps Script backend skeleton, configuration, and Sheets abstraction.
+2. Project/BOM reads and writes.
+3. Ordering, selective vendor-order items, AD ordering, and mentor approval.
+4. OAuth, user mapping, and backend permission enforcement.
+5. Connect the React frontend to Apps Script and replace dummy data with the real provider.
+6. Integration testing, fixes, deployment configuration, and documentation.
+
+These are implementation checkpoints rather than rigid one-session limits. The purpose is to keep architecture decisions outside expensive implementation runs whenever practical.
+
 ## What we need from the team
 
 ### Needed next
