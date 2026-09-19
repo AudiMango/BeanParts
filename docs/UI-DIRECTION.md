@@ -55,6 +55,8 @@ Chewy should not be used for long text, table headers, form labels, statuses, or
 
 ## Inspiration and limits
 
+See the [UI reference study](UI-REFERENCE-STUDY.md) for the September 19, 2026 live review of Match13, Linear, Things, and FRCBOM, with evidence limits and proposed BeanParts adaptations. This document remains the primary UI planning baseline; the study does not independently approve new features or branding changes.
+
 ### FRCBOM patterns to adapt
 
 - A clear project/subsystem context above the part list.

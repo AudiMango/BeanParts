@@ -63,6 +63,10 @@ This structure is a boundary map, not permission to implement the application or
 
 Do not create competing root-level `frontend/`, `backend/`, or `src/` directories. Generated deployment output must be reproducible from owned source and must not replace the source layout above.
 
+## UI reference documentation
+
+`docs/UI-REFERENCE-STUDY.md` contains the Match13 and comparable-site research and proposed visual guidance. It supplements `docs/UI-DIRECTION.md`; it creates no production module and changes no dependency boundary.
+
 ## Frontend modules
 
 ### `apps/web/src/app`

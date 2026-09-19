@@ -16,6 +16,7 @@ Start here when looking for project information. Each subject has one primary do
 | [Spreadsheet audit](SPREADSHEET-AUDIT.md) | Existing workbook observations and proposed fields | A template or existing workbook is reviewed |
 | [Spreadsheet rules](SPREADSHEET-RULES.md) | Data integrity, history, backup, and acceptance rules | Sheet behavior or validation changes |
 | [UI direction](UI-DIRECTION.md) | Navigation, screens, responsive behavior, and role-based UI | User flows or interface patterns change |
+| [UI reference study](UI-REFERENCE-STUDY.md) | Match13 and comparable UI research with proposed BeanParts adaptations | Reference research or proposed visual guidance changes |
 | [Decision records](decisions/README.md) | Why significant technical decisions were made | A significant technical choice is accepted or replaced |
 | [Contributing](../CONTRIBUTING.md) | How contributors plan, implement, test, review, and document changes | The team changes its engineering workflow |
 | [Agent instructions](../AGENTS.md) | Mandatory repository-wide startup and completion rules for AI contributors | Agent workflow, boundaries, or required reads change |
