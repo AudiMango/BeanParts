@@ -57,7 +57,8 @@ Full inventory and stock reservations remain optional scope; project organizatio
 - Each order request line names a project and optionally a subsystem/assembly.
 - Link a request to its BOM entry when relevant.
 - Allow purchases that are not BOM parts, such as project supplies.
-- A mentor may combine approved requests for several projects into one vendor order.
+- A mentor creates a vendor order by selecting the specific approved request lines and quantities being purchased. Selecting a vendor must never automatically include every request for that vendor.
+- A mentor may combine selected approved requests for several projects into one vendor order.
 - Preserve each project's quantities and links on the individual order lines.
 - Where one purchased line serves several projects, record quantity allocations and ensure their total equals the purchased quantity.
 - Do not duplicate a complete order or count its full cost once for every linked project.
@@ -68,7 +69,7 @@ Creating a BOM entry does not automatically approve or place an order.
 
 ## Confirmation responsibilities
 
-- Students add BOM entries and submit general requests.
+- Students add BOM entries but do not access the Requests section.
 - Leads review student submissions, confirm BOM entries, check order requests, and confirm deliveries.
 - Only mentors give final purchase confirmation, mark an order as placed with the vendor, and confirm invoices.
 - Lead review and mentor purchase confirmation are separate actions and labels.
