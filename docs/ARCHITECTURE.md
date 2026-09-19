@@ -167,6 +167,7 @@ BeanParts/
 │   ├── SPREADSHEET-AUDIT.md
 │   ├── SPREADSHEET-RULES.md
 │   ├── UI-DIRECTION.md
+│   ├── UI-REFERENCE-STUDY.md
 │   └── decisions/
 │       └── README.md
 ├── dist/
