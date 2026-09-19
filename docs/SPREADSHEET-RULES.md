@@ -4,13 +4,13 @@ Status: Requirements and proposed safeguards, not an implemented system.
 
 ## Non-negotiable storage rule
 
-All durable BeanParts business/workflow data must live in the existing spreadsheet system. This includes any approved requests, BOM records, ordering/receiving records, history, settings, and supporting record identifiers introduced by BeanParts.
+All durable BeanParts business/workflow data must live in the approved Google Sheets workbook system: one BOM workbook per project, one central ordering workbook, and one central Control workbook. This includes approved requests, BOM records, ordering/receiving records, history, settings, and supporting record identifiers introduced by BeanParts.
 
 There will be no separate authoritative business database. Any performance cache must be disposable and rebuildable from the spreadsheets. Deleting the cache must not lose team records. A save is not complete merely because data reached a cache.
 
 The user permits modest spreadsheet changes to accommodate BeanParts, provided manual use remains similar. Helper columns or tabs may be proposed within that constraint. Review the actual workbooks and document the exact changes before applying them to live files; this is not permission to redesign the workflow wholesale.
 
-Passwords, access tokens, and API secrets must not be placed in Sheets or GitHub. Authentication and secret handling are security infrastructure, not a second business record system. The chosen approach needs explicit explanation during architecture planning. CAD geometry stays in Onshape; treatment of attachments and external file links remains an open requirement.
+Passwords, access tokens, and API secrets must not be placed in Sheets or GitHub. Authentication and secret handling are security infrastructure, not a second business record system. The selected Apps Script approach must document its server-side secret handling before implementation. CAD geometry stays in Onshape; treatment of attachments and external file links remains an open requirement.
 
 ## Two ways to use the same information
 
@@ -19,6 +19,22 @@ Passwords, access tokens, and API secrets must not be placed in Sheets or GitHub
 - Existing spreadsheet workflows do not require a BeanParts account.
 - App access cannot silently give a person broader powers than the agreed team access rules.
 - Direct sheet editors can bypass app validation. App-only restrictions cannot guarantee protection against direct sheet edits. Any required restrictions must also fit the sheet permission model.
+
+## Apps Script data access
+
+Google Apps Script is the backend/API responsible for Sheets access, business rules, validation, role checks, and concurrency protection where appropriate. Browser code must not contain privileged Google API credentials or write directly through a privileged Sheets identity.
+
+Design Apps Script operations to stay efficient and within practical quotas:
+
+- read and write ranges in batches instead of making per-cell calls;
+- return only the fields needed by the current screen;
+- filter and sort in the browser when the required data set is already loaded and small enough;
+- use caching for derived/read-heavy data when useful, but treat it as disposable;
+- invalidate or refresh cached results so direct Sheet edits become visible within the agreed freshness target;
+- use stable record IDs, expected versions/timestamps, and Apps Script locking where appropriate;
+- do not claim locking prevents a person from editing the Sheet at the same time.
+
+Use an approximately 60-second mutable-data cache, up to five minutes for slow-changing reference data, and a normal 1–2 minute direct-edit freshness target. Use stable IDs, revision hashes, short locks, operation IDs, and field-by-field conflict resolution. Exact implementation still requires testing against representative copies and 1–5 simultaneous users.
 
 ## Rules to design and test
 
@@ -55,7 +71,9 @@ For rows created directly in Sheets, define when and how a stable ID is assigned
 
 Preserve the familiar manual workflow and existing formulas. The inspected-workbook field map and modest change proposal are documented in [Spreadsheet audit](SPREADSHEET-AUDIT.md). The proposal keeps the familiar tabs, adds columns at the far right, and adds Projects, Members, Deliveries, History, and Lists helper tabs. It is not approval to modify live sheets.
 
-## Onshape import rules
+## Post-v1 Onshape import rules
+
+Onshape import is deferred until the core v1 is stable. When it is added:
 
 - Start with an explicitly selected assembly and manual import action.
 - Preview changes before committing.
@@ -68,14 +86,16 @@ Preserve the familiar manual workflow and existing formulas. The inspected-workb
 
 ## History, backups, and recovery
 
-Proposed: helper tabs hold app operation history and relevant settings, subject to approval.
+History records submitted changes and conflict resolutions. Only unsubmitted drafts may be permanently deleted through BeanParts; submitted records are cancelled, rejected, voided, or archived.
+
+Make daily backups of active BOM workbooks, the ordering workbook, and the Control workbook. Retain rolling daily copies for 30 days. Keep separately labeled pre-migration/pre-repair backups outside that cleanup window.
 
 Do not promise that every direct sheet edit can be attributed to a named person until the available access and audit mechanisms are verified.
 
 Before live use:
-- Back up both existing files and document restoration steps.
+- Keep the legacy files archived read-only; back up every active BOM, ordering, and Control workbook and document restoration steps.
 - Test on copies first.
-- Agree on backup ownership, retention, and access.
+- Verify the restricted shared-drive backup folder, 30-day cleanup, mentor restore access, and safety-copy process.
 - Test restoring data and rebuilding any cache.
 - Test recovery after partial writes and interrupted imports.
 - Confirm that disabling BeanParts leaves the team's spreadsheet workflow usable.
@@ -99,7 +119,7 @@ These checks are release criteria, not claims that implementation has passed.
 
 ## Role permissions and direct sheet use
 
-See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During architecture, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and lead requests. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
+See [Roles and permissions](ROLES.md). The same business rules should apply through the app and Sheets. During implementation planning, evaluate protection of mentor approval/invoice-confirmation cells and role-management settings while retaining normal student BOM editing and lead requests. Hidden tabs are not an access-control mechanism. Document any gap between app permissions and what direct sheet editors can do before rollout.
 
 
 ## Inspected workbook note

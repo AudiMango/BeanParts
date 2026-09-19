@@ -94,7 +94,7 @@ Left to right:
 4. Search.
 5. Current role/account menu.
 
-Settings appears in the account menu for admins. Mentor-only actions appear inside the relevant order screen, not as a separate mentor application.
+Settings appears in the account menu. Mentors manage members, roles, projects, and purchasing authority; Admin controls are limited to technical settings and troubleshooting. Mentor-only actions appear inside the relevant workflow, not as a separate mentor application.
 
 ### Mobile
 
@@ -111,7 +111,7 @@ Tables should become stacked, information-dense rows. Each row shows the most us
 ### 1. Sign in
 
 - Team BEAN logo and BeanParts name.
-- One clear Google sign-in action if approved during architecture.
+- One clear Google sign-in action. Google establishes account identity; BeanParts backend authorization determines the user's permitted role actions.
 - Short explanation that spreadsheet users may continue using Sheets.
 - No large marketing page is needed for the private team application.
 
@@ -209,6 +209,17 @@ Order list shows:
 
 Only mentors see enabled actions for final confirmation, Mark ordered, and Confirm invoice. Other users may view the permitted information with those actions disabled or absent. Do not rely on color alone to communicate permission.
 
+### 6A. AutomationDirect covered orders
+
+Keep this workflow visibly separate from normal purchases.
+
+- Show AutomationDirect part number, quantity, retail cost/value, note, status, optional project/subsystem/BOM link, and approval state.
+- Report covered value separately from Team Spending.
+- Do not request or display an invoice connection.
+- Require lead review and mentor approval before submission.
+- Only mentors mark the order as placed.
+- Leads or mentors may confirm delivery/organization.
+
 ### 7. Deliveries
 
 Designed for quick use at the shop:
@@ -223,12 +234,15 @@ A delivery confirmation never changes the mentor purchase/invoice confirmation h
 
 ### 8. Admin/settings
 
-Admins manage:
+Mentors manage:
 - Members and role assignments.
 - Project lifecycle.
-- Spreadsheet connections and expected sheet structure.
-- Onshape connections.
+
+Admins manage technical configuration and troubleshooting. Admin permission alone does not manage access or purchasing.
+- Workbook connections and expected sheet structure.
 - Sync health and recovery.
+
+Onshape connection controls are deferred until the post-v1 importer.
 - Display/theme preferences.
 
 Admin does not automatically grant mentor purchase authority.
@@ -258,7 +272,7 @@ Do not use Confirmed by itself where it could mean BOM review, purchase approval
 - Status chips are small and use both text and color.
 - Show success only after the underlying spreadsheet write is verified.
 - Show Last refreshed and a stale-data message when needed.
-- If a direct Sheet edit conflicts with an app edit, stop the affected save and show both values for review.
+- If a direct Sheet edit conflicts with an app edit, stop the affected save, show the user's value beside the current Sheet value, and let an authorized user choose field by field.
 - Use drawers/modals only for short tasks. Use full pages for complex order and BOM editing.
 - Keep animations short and functional: opening panels, saving states, and row updates. Avoid floating gradients, glowing borders, glass-heavy layers, and decorative motion.
 - Use familiar icons with visible labels for main actions. Do not make users guess from icons alone.
@@ -315,7 +329,7 @@ Before production UI implementation:
 - The primary PNG is stored at assets/brand/bean-logo-primary.png. An SVG and approved alternate-color variants are still desirable.
 - Confirmation of the palette-code discrepancy in the style guide.
 - Any preference for light-only versus light and dark mode in the first release.
-- Final workbook fields after the existing spreadsheets are inspected.
+- Final protected-range details and exact added-column order after testing the approved templates in Google Sheets.
 
 The stored logo is available for the fake-data prototype.
 
