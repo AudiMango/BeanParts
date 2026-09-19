@@ -137,18 +137,18 @@ This organization is a current development constraint. Exact build, test, format
 
 The repository uses one canonical location for each responsibility. Contributors must not create alternate root-level `frontend/`, `backend/`, or `src/` implementations.
 
-### Actual documentation baseline
+### Actual repository baseline
 
 At the current planning baseline, the repository contains documentation, the approved logo asset, collaboration controls, and reports. The production application scaffold is not yet present.
 
 ```text
 BeanParts/
 ├── .github/
-│   ├── pull_request_template.md
-│   └── rulesets/
-│       ├── README.md
-│       └── main-protection.json
+│   └── pull_request_template.md
+├── .openai/
+│   └── hosting.json
 ├── AGENTS.md
+├── CLAUDE.md
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── README.md
@@ -169,13 +169,18 @@ BeanParts/
 │   ├── UI-DIRECTION.md
 │   └── decisions/
 │       └── README.md
+├── dist/
+│   ├── app.js
+│   ├── bean-logo-primary.png
+│   ├── index.html
+│   └── styles.css
 └── reports/
     ├── README.md
     ├── _TEMPLATE.md
     └── <dated session reports>.md
 ```
 
-The separate `prototype/frontend-ui` branch contains generated static `dist/` files. Those artifacts are useful for UI review but are not the accepted production source-code layout and must not become the architecture by accident.
+The merged `dist/` files are a generated static fake-data prototype used for supervised UI review. They are not the accepted production source-code layout, do not prove a production build exists, and must not become the architecture by accident. `.openai/hosting.json` configures that prototype preview only.
 
 ### Required implementation paths
 

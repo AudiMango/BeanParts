@@ -20,7 +20,7 @@ The core rules are:
 
 This is the target layout. Directories may be introduced as their first real feature is built; empty placeholder directories are unnecessary.
 
-The current repository is still at the documentation baseline and does not yet contain `apps/`, `packages/`, or `scripts/`. The exact current tree is maintained in [Architecture](ARCHITECTURE.md). When scaffolding adds a path below, update both documents in the same pull request.
+The current repository contains documentation plus a generated fake-data prototype under `dist/`; it does not yet contain the accepted production `apps/`, `packages/`, or `scripts/` scaffold. The exact current tree is maintained in [Architecture](ARCHITECTURE.md). When scaffolding adds a path below, update both documents in the same pull request.
 
 ```text
 BeanParts/

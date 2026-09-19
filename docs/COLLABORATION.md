@@ -137,8 +137,8 @@ A pull request must include:
 
 Use `.github/pull_request_template.md`. A branch is not complete merely because its code compiles.
 
-## 10. Main branch protection
+## 10. Main branch and enforcement
 
-All normal changes reach `main` through pull requests. The reviewable intended ruleset is stored in `.github/rulesets/main-protection.json`; GitHub does not apply that file automatically. Its README explains how to import and later update it.
+GitHub does not currently enforce branch protection on `main`. AI code changes and concurrent work still default to a task branch and pull request so scope, review, reports, and merge order remain visible. This is a working convention rather than a configured GitHub rule.
 
-Once reliable continuous-integration checks exist, make them required in the GitHub ruleset. Once a second regular reviewer is available, require at least one approval.
+Reconsider branch protection when reliable continuous-integration checks and a second regular reviewer are available. Record a future enforcement change in the repository instead of assuming settings were applied.

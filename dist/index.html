@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#123e47" />
+    <meta name="description" content="BeanParts frontend workflow prototype for FRC Team BEAN 1833." />
+    <title>BeanParts Prototype</title>
+    <link rel="icon" type="image/png" href="./bean-logo-primary.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="prototype-banner">
+      <span class="demo-dot" aria-hidden="true"></span>
+      UI prototype · Fake data only · No live spreadsheet changes
+    </div>
+
+    <header class="app-header">
+      <a class="brand" href="#overview" aria-label="BeanParts overview">
+        <img src="./bean-logo-primary.png" alt="Team BEAN 1833" />
+        <span>BeanParts</span>
+      </a>
+
+      <button class="project-switcher" id="projectButton" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <span>
+          <small>Current project</small>
+          <strong id="projectLabel">2026 Onseason Robot</strong>
+        </span>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5" /></svg>
+      </button>
+
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#overview" data-route="overview">Overview</a>
+        <a href="#bom" data-route="bom">BOM</a>
+        <a href="#requests" data-route="requests">Requests</a>
+        <a href="#orders" data-route="orders">Orders</a>
+        <a href="#deliveries" data-route="deliveries">Deliveries</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="globalSearchButton" type="button" aria-label="Search BeanParts">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        </button>
+        <label class="role-preview">
+          <span>Preview as</span>
+          <select id="roleSelect" aria-label="Preview user role">
+            <option>Student</option>
+            <option selected>Lead</option>
+            <option>Mentor</option>
+            <option>Admin</option>
+          </select>
+        </label>
+        <button class="avatar" id="profileButton" type="button" aria-label="Open account menu">AM</button>
+      </div>
+    </header>
+
+    <div class="project-popover" id="projectPopover" role="listbox" aria-label="Choose project" hidden>
+      <div class="popover-heading">Switch project</div>
+      <button type="button" role="option" data-project="robot" aria-selected="true">
+        <span class="project-mark red"></span><span><strong>2026 Onseason Robot</strong><small>Active · 184 BOM lines</small></span>
+      </button>
+      <button type="button" role="option" data-project="offseason">
+        <span class="project-mark teal"></span><span><strong>2026 Offseason Robot</strong><small>Active · 67 BOM lines</small></span>
+      </button>
+      <button type="button" role="option" data-project="altmill">
+        <span class="project-mark graphite"></span><span><strong>2026 Offseason Altmill Upgrade</strong><small>Planning · 29 BOM lines</small></span>
+      </button>
+      <div class="popover-footer">Projects are stored in the project workbooks.</div>
+    </div>
+
+    <main id="mainContent" tabindex="-1">
+      <section class="page active" data-page="overview" aria-labelledby="overviewTitle">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow"><span class="status-dot healthy"></span> Sheets connected · Refreshed 2 min ago</div>
+            <h1 id="overviewTitle">Workshop overview</h1>
+            <p>What needs attention for <strong class="current-project-name">2026 Onseason Robot</strong>.</p>
+          </div>
+          <div class="heading-actions">
+            <button class="button secondary" type="button" data-action="refresh">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 6v5h-5M4 18v-5h5"/><path d="M18.5 9A7 7 0 0 0 6 6.5L4 9m2 6a7 7 0 0 0 12 2.5L20 15"/></svg>
+              Refresh Sheets
+            </button>
+            <button class="button primary" type="button" data-open="addPartDialog">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              Add BOM part
+            </button>
+          </div>
+        </div>
+
+        <div class="work-grid">
+          <article class="work-card urgent" data-jump="requests">
+            <div class="work-card-top"><span>Lead review</span><strong>4</strong></div>
+            <h2>Submitted items</h2>
+            <p>BOM entries and team requests waiting to be checked.</p>
+            <span class="text-link">Review queue <span aria-hidden="true">→</span></span>
+          </article>
+          <article class="work-card request-only" data-jump="orders">
+            <div class="work-card-top"><span>Mentor action</span><strong>3</strong></div>
+            <h2>Ready for approval</h2>
+            <p>Lead-checked requests ready for mentor confirmation.</p>
+            <span class="text-link">View orders <span aria-hidden="true">→</span></span>
+          </article>
+          <article class="work-card" data-jump="deliveries">
+            <div class="work-card-top"><span>Receiving</span><strong>2</strong></div>
+            <h2>Partial deliveries</h2>
+            <p>Two orders still have parts arriving at the shop.</p>
+            <span class="text-link">Check deliveries <span aria-hidden="true">→</span></span>
+          </article>
+        </div>
+
+        <div class="overview-columns">
+          <section class="panel attention-panel">
+            <div class="panel-heading">
+              <div><span class="kicker">ACTION QUEUE</span><h2>Needs attention</h2></div>
+              <button class="quiet-button" type="button" data-jump="requests">View all</button>
+            </div>
+            <div class="task-list" id="attentionList"></div>
+          </section>
+
+          <aside class="panel project-panel">
+            <div class="panel-heading"><div><span class="kicker">PROJECT HEALTH</span><h2>At a glance</h2></div></div>
+            <dl class="metric-list">
+              <div><dt>Confirmed BOM lines</dt><dd><strong>161</strong> / 184</dd></div>
+              <div><dt>Estimated project cost</dt><dd>$8,426.38</dd></div>
+              <div class="request-only"><dt>Open order requests</dt><dd>12</dd></div>
+            </dl>
+            <div class="progress-block">
+              <div><span>BOM review</span><span>88%</span></div>
+              <div class="progress-track"><span style="width:88%"></span></div>
+            </div>
+            <div class="source-stack">
+              <div><span class="source-icon sheet">B</span><span><strong>BOM workbook</strong><small>Last edit 2 min ago</small></span><span class="status-label good">Current</span></div>
+              <div><span class="source-icon order">O</span><span><strong>Order workbook</strong><small>Last edit 7 min ago</small></span><span class="status-label good">Current</span></div>
+            </div>
+          </aside>
+        </div>
+
+        <section class="panel recent-panel">
+          <div class="panel-heading">
+            <div><span class="kicker">RECENT ACTIVITY</span><h2>Across the project</h2></div>
+            <span class="role-note">Visible to all students</span>
+          </div>
+          <div class="activity-table" id="activityTable"></div>
+        </section>
+      </section>
+
+      <section class="page" data-page="bom" aria-labelledby="bomTitle">
+        <div class="page-heading compact-heading">
+          <div>
+            <div class="eyebrow"><span class="workbook-icon">B</span> Big Sheet of Stuff · BOM workbook</div>
+            <h1 id="bomTitle">Bill of materials</h1>
+            <p><span id="bomCount">184</span> lines in <strong class="current-project-name">2026 Onseason Robot</strong>.</p>
+          </div>
+          <div class="heading-actions">
+            <button class="button secondary" type="button" data-action="onshape">Preview Onshape changes</button>
+            <button class="button primary" type="button" data-open="addPartDialog">Add BOM part</button>
+          </div>
+        </div>
+
+        <div class="toolbar" aria-label="BOM tools">
+          <label class="search-control">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="bomSearch" type="search" placeholder="Search parts or part numbers" />
+          </label>
+          <div class="segmented" id="bomTypeFilters" aria-label="Filter by type">
+            <button class="active" type="button" data-filter="all">All</button>
+            <button type="button" data-filter="purchased">Purchased</button>
+            <button type="button" data-filter="manufactured">Manufactured</button>
+            <button type="button" data-filter="assembly">Assemblies</button>
+          </div>
+          <select id="subsystemFilter" aria-label="Filter by subsystem">
+            <option value="all">All subsystems</option>
+            <option>Drivetrain</option><option>Intake</option><option>Shooter</option><option>Electrical</option>
+          </select>
+          <button class="filter-button" type="button" data-action="filters">More filters <span class="filter-count">2</span></button>
+        </div>
+
+        <div class="table-shell">
+          <table class="data-table bom-table">
+            <thead><tr><th>Part</th><th>Subsystem</th><th>Type</th><th>Part no. / rev</th><th class="numeric">Qty</th><th>Review</th><th>Order state</th><th>Changed</th><th><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody id="bomRows"></tbody>
+          </table>
+          <div class="mobile-card-list" id="bomCards"></div>
+          <div class="table-footer"><span>Showing <strong id="visibleBomCount">8</strong> of <strong>184</strong> lines</span><button type="button" class="quiet-button" data-action="load-more">Load more</button></div>
+        </div>
+      </section>
+
+      <section class="page" data-page="requests" aria-labelledby="requestsTitle">
+        <div class="page-heading compact-heading">
+          <div>
+            <div class="eyebrow"><span class="workbook-icon">O</span> Order workbook · Request List</div>
+            <h1 id="requestsTitle">Requests</h1>
+            <p>Student requests move through lead review before mentor confirmation.</p>
+          </div>
+          <button class="button primary lead-only" type="button" data-open="requestDialog">New order request</button>
+        </div>
+        <div class="status-tabs" id="requestTabs">
+          <button class="active" data-status="all" type="button">All <span>12</span></button>
+          <button data-status="needs-lead" type="button">Needs lead review <span>4</span></button>
+          <button data-status="ready-mentor" type="button">Ready for mentor <span>3</span></button>
+          <button data-status="correction" type="button">Needs correction <span>2</span></button>
+          <button data-status="closed" type="button">Closed <span>3</span></button>
+        </div>
+        <div class="table-shell">
+          <table class="data-table request-table">
+            <thead><tr><th>Request</th><th>Requester</th><th>Vendor</th><th class="numeric">Qty</th><th class="numeric">Est. cost</th><th>Status</th><th>Updated</th><th><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody id="requestRows"></tbody>
+          </table>
+          <div class="mobile-card-list" id="requestCards"></div>
+        </div>
+      </section>
+
+      <section class="page" data-page="orders" aria-labelledby="ordersTitle">
+        <div class="page-heading compact-heading">
+          <div>
+            <div class="eyebrow"><span class="workbook-icon">O</span> Order workbook · Invoices</div>
+            <h1 id="ordersTitle">Orders & invoices</h1>
+            <p>Purchases from the team budget. Only mentors can confirm and mark orders placed.</p>
+          </div>
+          <button class="button primary mentor-only" type="button" data-open="vendorOrderDialog">Create vendor order</button>
+        </div>
+        <div class="inline-callout role-callout" id="orderPermissionCallout"></div>
+        <div class="table-shell">
+          <table class="data-table order-table">
+            <thead><tr><th>Vendor / order</th><th>Projects</th><th>Placed</th><th class="numeric">Total</th><th>Delivery</th><th>Invoice</th><th><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody id="orderRows"></tbody>
+          </table>
+          <div class="mobile-card-list" id="orderCards"></div>
+        </div>
+
+        <section class="ad-panel">
+          <div class="ad-stripe"></div>
+          <div class="ad-content">
+            <div>
+              <span class="kicker">SEPARATE WORKFLOW</span>
+              <h2>AutomationDirect request list</h2>
+              <p>AD covers these purchases in full, so they never enter the team-paid order or invoice totals. Mentor approval is still required.</p>
+            </div>
+            <button class="button secondary" type="button" data-action="open-ad">Open AD requests <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="ad-preview">
+            <span><strong>2</strong> awaiting mentor approval</span><span><strong>1</strong> submitted to AD</span><span><strong>$0</strong> team cost</span>
+          </div>
+        </section>
+      </section>
+
+      <section class="page" data-page="deliveries" aria-labelledby="deliveriesTitle">
+        <div class="page-heading compact-heading">
+          <div>
+            <div class="eyebrow"><span class="workbook-icon">O</span> Order workbook · Deliveries</div>
+            <h1 id="deliveriesTitle">Confirm deliveries</h1>
+            <p>Leads and mentors can receive parts, including partial or incorrect shipments.</p>
+          </div>
+          <button class="button primary reviewer-only" type="button" data-open="deliveryDialog">Confirm a delivery</button>
+        </div>
+        <label class="search-control delivery-search"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="deliverySearch" type="search" placeholder="Search order, vendor, part, or project" /></label>
+        <div class="delivery-grid" id="deliveryGrid"></div>
+      </section>
+    </main>
+
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a href="#overview" data-route="overview"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20H4z"/></svg><span>Overview</span></a>
+      <a href="#bom" data-route="bom"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg><span>BOM</span></a>
+      <a href="#requests" data-route="requests"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 8h6M9 12h6M9 16h4"/></svg><span>Requests</span></a>
+      <a href="#orders" data-route="orders"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16v13H4zM8 7V4h8v3M4 11h16"/></svg><span>Orders</span></a>
+      <a href="#deliveries" data-route="deliveries"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg><span>Deliveries</span></a>
+    </nav>
+
+    <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+      <div class="drawer-backdrop" data-close-drawer></div>
+      <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+        <button class="drawer-close" type="button" data-close-drawer aria-label="Close details">×</button>
+        <div id="drawerContent"></div>
+      </div>
+    </aside>
+
+    <dialog id="addPartDialog" class="modal">
+      <form method="dialog" data-form="part">
+        <div class="modal-heading"><div><span class="kicker">BOM WORKBOOK</span><h2>Add BOM part</h2></div><button value="cancel" aria-label="Close">×</button></div>
+        <p class="modal-intro">This demo shows the fields that would be written to the selected project BOM.</p>
+        <div class="form-grid">
+          <label class="wide">Part name <input name="partName" required placeholder="e.g. Intake pivot plate" /></label>
+          <label>Subsystem <select name="subsystem"><option>Intake</option><option>Shooter</option><option>Drivetrain</option><option>Electrical</option></select></label>
+          <label>Type <select name="type"><option>Manufactured</option><option>Purchased</option><option>Assembly</option></select></label>
+          <label>Quantity <input name="quantity" type="number" min="1" value="1" /></label>
+          <label>Part number / revision <input name="partNumber" placeholder="Optional" /></label>
+          <label class="wide">Notes <textarea name="notes" rows="3" placeholder="Material, source, or manufacturing notes"></textarea></label>
+        </div>
+        <div class="modal-footer"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" value="default">Add as draft</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="requestDialog" class="modal">
+      <form method="dialog" data-form="request">
+        <div class="modal-heading"><div><span class="kicker">ORDER WORKBOOK</span><h2>New order request</h2></div><button value="cancel" aria-label="Close">×</button></div>
+        <p class="modal-intro">A lead can check this request. A mentor must still approve any purchase.</p>
+        <div class="form-grid">
+          <label class="wide">Item or purpose <input name="item" required placeholder="e.g. 2 in. compliant wheels" /></label>
+          <label>Vendor <input name="vendor" placeholder="Vendor name" /></label>
+          <label>Quantity <input name="quantity" type="number" min="1" value="1" /></label>
+          <label>Estimated cost <input name="cost" type="number" min="0" step="0.01" placeholder="0.00" /></label>
+          <label>Project <select name="project"><option>2026 Onseason Robot</option><option>2026 Offseason Robot</option><option>2026 Offseason Altmill Upgrade</option></select></label>
+          <label class="wide">Reason <textarea name="reason" rows="3" placeholder="What is this needed for?"></textarea></label>
+        </div>
+        <div class="modal-footer"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" value="default">Save request</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="deliveryDialog" class="modal">
+      <form method="dialog" data-form="delivery">
+        <div class="modal-heading"><div><span class="kicker">RECEIVING</span><h2>Confirm delivery</h2></div><button value="cancel" aria-label="Close">×</button></div>
+        <div class="form-grid">
+          <label class="wide">Order <select name="order"><option>REV-1048 · REV Robotics</option><option>MC-7781 · McMaster-Carr</option><option>WCP-2941 · WestCoast Products</option></select></label>
+          <label>Quantity received <input name="quantity" type="number" min="1" value="1" /></label>
+          <label>Condition <select name="condition"><option>Correct and undamaged</option><option>Damaged</option><option>Incorrect item</option></select></label>
+          <label class="wide">Receiving note <textarea name="note" rows="3" placeholder="Optional note"></textarea></label>
+        </div>
+        <div class="modal-footer"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" value="default">Confirm delivery</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="vendorOrderDialog" class="modal vendor-order-modal">
+      <form method="dialog" data-form="vendor-order">
+        <div class="modal-heading"><div><span class="kicker">MENTOR ACTION</span><h2>Create vendor order</h2></div><button value="cancel" aria-label="Close">×</button></div>
+        <p class="modal-intro">Select the exact approved request lines being purchased. Items from this vendor are never added automatically.</p>
+        <label class="vendor-select-label">Vendor
+          <select id="vendorOrderVendor" name="vendor">
+            <option>WestCoast Products</option>
+            <option>AndyMark</option>
+            <option>McMaster-Carr</option>
+          </select>
+        </label>
+        <div class="order-builder-heading"><span>Approved request lines</span><span>Order quantity</span></div>
+        <div class="vendor-line-list" id="vendorOrderLines"></div>
+        <div class="vendor-order-summary">
+          <span><strong id="vendorSelectedCount">0</strong> lines selected</span>
+          <span>Estimated subtotal <strong id="vendorOrderSubtotal">$0.00</strong></span>
+        </div>
+        <div class="modal-footer"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" id="createVendorOrderButton" value="default" disabled>Create order with selected lines</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-check">✓</span><span id="toastMessage">Saved to Google Sheets</span></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

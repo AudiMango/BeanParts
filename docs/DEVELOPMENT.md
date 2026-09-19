@@ -53,7 +53,7 @@ After a milestone, report what changed, what was tested, remaining limitations, 
 - Never commit credentials or real private team records.
 - Preserve existing work; do not import the Claude ZIP without reviewing it.
 
-The intended main-branch ruleset is stored under `.github/rulesets/`, but the file is not proof that GitHub settings were imported. No automated tests, deployments, or service integrations are claimed to be configured until verified.
+Main is not currently protected by an enforced GitHub ruleset. AI code changes and concurrent work still use task branches and pull requests by repository convention. No automated tests, production deployments, or service integrations are claimed to be configured until verified.
 
 ## Proposed development sequence
 
