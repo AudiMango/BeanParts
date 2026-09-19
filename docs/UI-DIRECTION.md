@@ -325,6 +325,8 @@ The first visual prototype should contain fake data for:
 
 The prototype should demonstrate student, lead, and mentor states for the same records. Student mode must hide the Requests navigation, request queues, and direct Requests route. Switching projects must update the visible project and reload that project's own fake data rather than relabeling the same dataset. It should not connect to live Sheets or Onshape.
 
+A prototype covering this scope lives in `dist/` (open `dist/index.html` in a browser; no install or build step). It uses a **Preview as** control in the top bar to switch between Student, Lead, and Mentor, a project switcher that loads each project's own fake records, and a theme setting in the account menu for light and dark. Its visual values follow the proposed starting points in the [UI reference study](UI-REFERENCE-STUDY.md), which remain proposals until the palette question below is settled.
+
 ## Inputs still needed
 
 Before production UI implementation:

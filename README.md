@@ -24,3 +24,9 @@ BeanParts reads and writes the same underlying workbooks that approved team memb
 - [Project plan](docs/PLAN.md) — product scope and delivery stages.
 - [Contributing](CONTRIBUTING.md) — definition-first workflow, coding boundaries, review, and completion checks.
 - [Session reports](reports/README.md) — required end-of-session status and change records.
+
+## Try the prototype
+
+A click-through prototype with fake data is in `dist/`. Download or clone the repository and open `dist/index.html` in any browser; nothing to install. Use **Preview as** in the top bar to see the app as a student, a student lead, or a mentor. Nothing you do in it touches Google Sheets.
+
+Project documentation starts at [docs/README.md](docs/README.md).
