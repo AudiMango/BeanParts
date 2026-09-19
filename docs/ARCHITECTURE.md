@@ -181,7 +181,7 @@ BeanParts/
     └── <dated session reports>.md
 ```
 
-The merged `dist/` files are a generated static fake-data prototype used for supervised UI review. They are not the accepted production source-code layout, do not prove a production build exists, and must not become the architecture by accident. `.openai/hosting.json` configures that prototype preview only.
+The `dist/` files are a hand-written static fake-data prototype (plain HTML, CSS, and JavaScript with no build step) used for supervised UI review. Open `dist/index.html` directly in a browser. They implement the screen plan in [UI direction](UI-DIRECTION.md) using the visual guidance in [UI reference study](UI-REFERENCE-STUDY.md). They are not the accepted production source-code layout, do not prove a production build exists, and must not become the architecture by accident. `.openai/hosting.json` configures that prototype preview only.
 
 ### Required implementation paths
 
