@@ -65,7 +65,7 @@ Everything in BeanPARTS lives inside a **Project**, for example:
 - `CNC Enclosure`
 - `Super Pit`
 
-A project is either **Active** or **Archived**. Projects are never deleted. Archived projects stay available and keep their history.
+A project is either **Active** or **Archived**. Projects are never deleted. Archived projects stay available and keep their history. An archived project can still receive deliveries and have invoices added so open orders can be finished; everything else is read-only.
 
 ```
 Project
@@ -154,7 +154,7 @@ If Onshape later changes to match (e.g. `7075`), the disagreement indicator goes
 
 ### BOM Synchronization
 
-After the first import, BeanPARTS detects changes such as:
+After the first import, BeanPARTS detects changes such as the ones below. Changes are **not applied automatically**: the user runs a sync, reviews the list of changes, and approves them.
 
 ```
 + Part added
@@ -171,6 +171,8 @@ After the first import, BeanPARTS detects changes such as:
 
 BeanPARTS uses the team's **existing part-numbering system** and does not introduce a new one. The part number is the main human-readable identifier. BeanPARTS also stores Onshape's internal identifiers so synchronization stays reliable.
 
+**Occurrences are combined into one Project Part by part number.** Two occurrences with the same part number are the same part, even if they come from different Onshape documents.
+
 ---
 
 ## Parts
@@ -182,6 +184,8 @@ BeanPARTS uses the team's **existing part-numbering system** and does not introd
 | **COTS** | Commercially purchased parts | Bearings, motors, fasteners, pulleys |
 | **Custom – In-house** | Designed for the project, made by the team | — |
 | **Custom – Outsourced** | Designed for the project, made by a vendor | — |
+
+Part type is **set manually** in BeanPARTS; it is not read from Onshape.
 
 V1 does not track detailed manufacturing processes (CNC, drill, tap, laser, 3D print). These may be added later.
 
@@ -210,9 +214,11 @@ Total Required: 7
 
 Ordering and fulfillment are tracked against the combined project requirement (7).
 
+**Subassembly quantities multiply.** If a Swerve Module is used ×4 and contains 2 bearings, the requirement is 8 bearings.
+
 ### Same Part Across Projects
 
-The same part number can appear in several projects. Each project tracks it **completely independently**: quantities, orders, deliveries, manufacturing progress, and statuses are not shared. There is no global inventory record.
+The same part number can appear in several projects. Each project tracks its **requirement and fulfillment independently**: quantities, deliveries, manufacturing progress, and statuses are not shared. (A single vendor order may still include items for several projects; see [Orders](#orders).) There is no global inventory record.
 
 ```
 2027 Robot → Bearing   (independent)
@@ -447,7 +453,7 @@ REV
 
 ### Orders
 
-An order contains items from **exactly one vendor**:
+An order contains items from **exactly one vendor**, but it **may combine items from several projects** (e.g. one McMaster order for the Robot and the Super Pit). Each line item belongs to one project.
 
 ```
 Order #42  Vendor: McMaster        Order #43  Vendor: WCP
