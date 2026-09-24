@@ -12,6 +12,7 @@ Project-based BOM, procurement, and manufacturing tracking for **FRC Team 1833**
 
 | Document | Purpose |
 | --- | --- |
+| [docs/AGENT-STARTUP.md](docs/AGENT-STARTUP.md) | **What agents must read and check at the start of every session** |
 | [docs/AGENT-GUIDELINES.md](docs/AGENT-GUIDELINES.md) | **Rules for AI agents working on this repo** |
 | [reports/](reports/) | Agent work reports (latest = current state) |
 | [docs/OVERVIEW.md](docs/OVERVIEW.md) | Start here: purpose, principles, V1 scope, spec index |
@@ -26,9 +27,10 @@ Project-based BOM, procurement, and manufacturing tracking for **FRC Team 1833**
 
 ```
 README.md               This file
-CLAUDE.md               Points AI agents to the agent guidelines
+CLAUDE.md               Points AI agents to the startup doc
 reports/                Agent reports after each change (see TEMPLATE.md)
 docs/
+├── AGENT-STARTUP.md    Agent session startup
 ├── AGENT-GUIDELINES.md Rules for AI agents
 ├── OVERVIEW.md         Product overview and V1 scope
 ├── PART-LIFECYCLE.md   Part states, quantities, and events

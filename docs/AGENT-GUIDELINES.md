@@ -22,9 +22,11 @@ Rules for any AI agent (Claude or others) working on BeanPARTS. Every agent must
 
 ## 2. Before You Start
 
-1. Read [README.md](../README.md), [OVERVIEW.md](OVERVIEW.md), and these guidelines.
-2. Read the **latest report** in [reports/](../reports/) to learn the current state.
-3. If you were given a task from a task list, read that task list and stay inside your task's boundaries (see section 4).
+**At the start of every session, follow [AGENT-STARTUP.md](AGENT-STARTUP.md).** In short:
+
+1. Read the documentation, these guidelines, and the **latest report**.
+2. Check the git state.
+3. If you were given a task from a task list, stay inside your task's boundaries (see section 4).
 4. If something is unclear, ask the user. Don't guess on product decisions.
 
 ## 3. Reports
