@@ -13,6 +13,8 @@ Project-based BOM, procurement, and manufacturing tracking for **FRC Team 1833**
 | Document | Purpose |
 | --- | --- |
 | [docs/OVERVIEW.md](docs/OVERVIEW.md) | Start here: purpose, principles, V1 scope, spec index |
+| [docs/PART-LIFECYCLE.md](docs/PART-LIFECYCLE.md) | How a part moves from BOM to Ready |
+| [docs/UI-GUIDELINES.md](docs/UI-GUIDELINES.md) | UI conventions (to be written) |
 | [docs/spec/](docs/spec/) | Detailed product specification, one file per area |
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | Standard terms |
 | [docs/DECISIONS.md](docs/DECISIONS.md) | Settled decisions log |
@@ -24,6 +26,8 @@ Project-based BOM, procurement, and manufacturing tracking for **FRC Team 1833**
 README.md               This file
 docs/
 ├── OVERVIEW.md         Product overview and V1 scope
+├── PART-LIFECYCLE.md   Part states, quantities, and events
+├── UI-GUIDELINES.md    UI conventions (to be written)
 ├── GLOSSARY.md         Terminology
 ├── DECISIONS.md        Decision log
 ├── OPEN-QUESTIONS.md   Open questions

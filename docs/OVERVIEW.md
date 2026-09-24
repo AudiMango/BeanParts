@@ -86,4 +86,4 @@ BeanPARTS intentionally does **not** track:
 | Budgets and invoices | [spec/06-budget-and-invoices.md](spec/06-budget-and-invoices.md) |
 | Activity history | [spec/07-activity-history.md](spec/07-activity-history.md) |
 
-See also: [Glossary](GLOSSARY.md) · [Decisions](DECISIONS.md) · [Open Questions](OPEN-QUESTIONS.md)
+See also: [Part Lifecycle](PART-LIFECYCLE.md) · [UI Guidelines](UI-GUIDELINES.md) · [Glossary](GLOSSARY.md) · [Decisions](DECISIONS.md) · [Open Questions](OPEN-QUESTIONS.md)

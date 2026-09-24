@@ -23,6 +23,7 @@ Unresolved items. When one is answered, remove it here and add it to [DECISIONS.
 - If a part is removed from CAD after being ordered or made (Required = 0), how is it shown?
 - Can existing inventory be declared for custom parts (e.g. last season's spares)?
 - Are "Design / In Progress" and "Manufacturing" set manually or derived?
+- Can "Ready for Manufacturing" be undone?
 - If Required rises after a part was Ready, it becomes not Ready: confirm.
 
 ## Ordering
