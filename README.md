@@ -26,7 +26,7 @@ BeanPARTS is **not** an inventory-management system. Once a project's required q
 - [Invoices and Budgets](#invoices-and-budgets)
 - [Files, CAD, and CAM](#files-cad-and-cam)
 - [Activity History](#activity-history)
-- [Offline Mode](#offline-mode)
+- [Not in V1](#not-in-v1)
 - [Out of Scope](#out-of-scope)
 - [Core Data Concepts](#core-data-concepts)
 - [V1 Screens](#v1-screens)
@@ -106,7 +106,7 @@ A project does not have to come from a single Onshape assembly.
 
 ## Onshape Integration
 
-Onshape is the main way to build project BOMs quickly. Users connect individual Onshape documents or subassemblies to assemblies in BeanPARTS, and BeanPARTS imports the BOM so nobody has to type it in by hand.
+Onshape is the main way to build project BOMs quickly. BeanPARTS connects through **one team Onshape account**, so users don't need their own Onshape login. Users connect individual Onshape documents or subassemblies to assemblies in BeanPARTS, and BeanPARTS imports the BOM so nobody has to type it in by hand.
 
 ```
 BeanPARTS Project
@@ -591,48 +591,14 @@ Each record includes the **user**, **timestamp**, **action**, and **old/new valu
 
 ---
 
-## Offline Mode
+## Not in V1
 
-BeanPARTS can be used and edited offline. While offline, users can work with project data that is stored locally:
+These are planned for later releases, not the initial release:
 
-- view BOM information
-- change quantities
-- update statuses
-- record delivered parts
-- edit basic project and part information
-
-Changes are saved locally until the connection returns.
-
-### Synchronization
-
-```
-Offline Changes
-      ↓
-Compare with Server
-      ↓
-No Conflict
-      ↓
-Automatic Sync
-```
-
-Conflicts are resolved **field by field**:
-
-```
-Quantity Required
-
-SERVER:          6
-OFFLINE CHANGE:  8
-
-[Keep Server]  [Keep Mine]
-```
-
-If two users changed different fields (e.g. one changed a quantity and the other changed a note), both changes merge automatically. Nobody has to overwrite a whole part because of one conflicting field.
-
-### Files Offline
-
-- Metadata and previously cached data stay available offline.
-- Large CAD/toolpath files are only available if they were cached or downloaded earlier.
-- Uploads made offline wait in the sync queue until the connection returns.
+- **Offline mode**: using and editing BeanPARTS without a connection, with field-by-field sync conflicts
+- **CAM toolpath preview** (see above)
+- **Notifications** (email, Slack, etc.)
+- **Importing existing spreadsheets**: V1 starts fresh; projects are built from Onshape or entered manually
 
 ---
 
@@ -675,7 +641,6 @@ Once a project's requirement is fulfilled, BeanPARTS's job is essentially done.
 | File / CAM File | Files attached to parts or versions |
 | Activity Record | Audit trail entry |
 | User | Team member using BeanPARTS |
-| Offline Sync Record | A queued local change waiting to sync |
 
 **BOM Occurrence vs. Project Part:**
 
