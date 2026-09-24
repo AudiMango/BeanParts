@@ -72,7 +72,7 @@ Project
 ├── Assemblies / Subassemblies
 ├── BOM
 ├── Order Requests
-├── Order List
+├── Order List (view of the team-wide list)
 ├── Orders
 ├── Budget
 ├── Files
@@ -243,6 +243,8 @@ Parts can store a normal/current price for **planning and BOM cost estimates**. 
 
 ## Quantities and Ready Status
 
+All quantities are **whole numbers**.
+
 ### Required Quantities
 
 The project's current BOM sets the required quantity. If CAD changes the requirement, work already done is kept:
@@ -264,6 +266,7 @@ Completed, delivered, received, and ordered quantities are **never erased** beca
 | COTS | Declared existing inventory + delivered purchased parts |
 | In-house custom | Completed quantity |
 | Outsourced custom | Received quantity |
+| Custom switched between in-house and outsourced | Completed + received quantity |
 
 ```
 Required:            7
@@ -309,7 +312,7 @@ Order Request
     ↓
 Accepted
     ↓
-Project Order List
+Team Order List
     ↓
 Order Created
     ↓
@@ -363,6 +366,8 @@ Ready
 ```
 
 For outsourced custom parts, the **received quantity** is the fulfilled quantity.
+
+A custom part can switch between in-house and outsourced partway through. Both counts are kept, and completed + received together count toward Ready.
 
 ---
 
@@ -430,14 +435,14 @@ Pending Review
 Accepted  or  Rejected
 ```
 
-Accepted items go to the project's **Order List**. Rejected requests can be edited and resubmitted.
+Accepted items go to the **team-wide Order List**. Rejected requests can be edited and resubmitted.
 
-### Project Order List
+### Order List
 
-The Order List holds accepted items that still need to be bought, so requests can be combined before purchasing:
+Accepted items from **all projects** go into one **team-wide Order List**, grouped by vendor, so purchases can be combined before ordering. Each item keeps its project, and the list can be filtered by project:
 
 ```
-PROJECT ORDER LIST
+TEAM ORDER LIST
 
 McMaster
 - Bearings ×10
@@ -536,6 +541,7 @@ Remaining:  $10,180
   Invoice B: $100
   Total Budget Impact: $400
   ```
+- **Multi-project invoices split automatically.** Each project is charged for its own line items; shipping and tax are split in proportion to each project's line cost.
 - **Corrections replace, not double-count.** If invoice details are corrected, the budget updates to the new value.
 
 ---
@@ -692,7 +698,7 @@ Project Part:    Bearing — Total Required = 7
 | **Part Detail** | Part info, occurrences, total required, fulfillment, Onshape info, revision history, files, manufacturing history, ordering history, activity |
 | **Manufacturing** | Parts not ready, ready for manufacturing, in progress, required/completed quantities, in-house vs. outsourced |
 | **Order Requests** | Submit and review requests |
-| **Order List** | Accepted items waiting to be bought, grouped/filterable by vendor |
+| **Order List** | Accepted items waiting to be bought, across all projects, grouped by vendor, filterable by project |
 | **Orders** | Vendor orders, invoices, and receiving |
 | **Project Budget** | Budget, invoiced spending, remaining funds |
 
