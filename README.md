@@ -12,6 +12,8 @@ Project-based BOM, procurement, and manufacturing tracking for **FRC Team 1833**
 
 | Document | Purpose |
 | --- | --- |
+| [docs/AGENT-GUIDELINES.md](docs/AGENT-GUIDELINES.md) | **Rules for AI agents working on this repo** |
+| [reports/](reports/) | Agent work reports (latest = current state) |
 | [docs/OVERVIEW.md](docs/OVERVIEW.md) | Start here: purpose, principles, V1 scope, spec index |
 | [docs/PART-LIFECYCLE.md](docs/PART-LIFECYCLE.md) | How a part moves from BOM to Ready |
 | [docs/UI-GUIDELINES.md](docs/UI-GUIDELINES.md) | UI conventions (to be written) |
@@ -24,7 +26,10 @@ Project-based BOM, procurement, and manufacturing tracking for **FRC Team 1833**
 
 ```
 README.md               This file
+CLAUDE.md               Points AI agents to the agent guidelines
+reports/                Agent reports after each change (see TEMPLATE.md)
 docs/
+├── AGENT-GUIDELINES.md Rules for AI agents
 ├── OVERVIEW.md         Product overview and V1 scope
 ├── PART-LIFECYCLE.md   Part states, quantities, and events
 ├── UI-GUIDELINES.md    UI conventions (to be written)
